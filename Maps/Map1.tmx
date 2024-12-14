@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="10">
  <tileset firstgid="1" source="Platforms.tsx"/>
+ <tileset firstgid="10" source="Players.tsx"/>
  <layer id="1" name="Platforms" width="40" height="23">
   <data encoding="csv">
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
@@ -28,5 +29,10 @@
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 </data>
  </layer>
- <objectgroup id="2" name="Objects"/>
+ <objectgroup id="2" name="Objects">
+  <object id="6" name="Player1" type="Player" gid="10" x="480" y="704" width="32" height="32"/>
+  <object id="7" name="Player2" type="Player" gid="11" x="544" y="704" width="32" height="32"/>
+  <object id="8" name="Player3" type="Player" gid="12" x="608" y="704" width="32" height="32"/>
+  <object id="9" name="Player4" type="Player" gid="13" x="672" y="704" width="32" height="32"/>
+ </objectgroup>
 </map>

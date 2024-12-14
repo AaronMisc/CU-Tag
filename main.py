@@ -19,6 +19,7 @@ class Game:
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption('CU-Tag')
+        self.clock = pygame.time.Clock()
 
         self.tmx_maps = {
             1: load_pygame(convert_filename(["Maps", "Map1.tmx"])),
@@ -28,12 +29,13 @@ class Game:
 
     def run(self):
         while True:
+            dt = self.clock.tick() / 1000
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
             
-            self.current_screen.run()
+            self.current_screen.run(dt)
             
             pygame.display.update()
 
