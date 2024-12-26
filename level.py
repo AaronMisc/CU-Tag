@@ -13,14 +13,14 @@ class Level:
         self.setup(tmx_map)
     
     def setup(self, tmx_map):
-        for x, y, surf, in tmx_map.get_layer_by_name("Platforms").tiles():
+        for x, y, surf in tmx_map.get_layer_by_name("Platforms").tiles():
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, (self.all_sprites, self.collision_sprites))
         
         for obj in tmx_map.get_layer_by_name("Objects"):
-            if obj.name == "Player1":
-                Player((obj.x, obj.y), self.all_sprites, self.collision_sprites, [pygame.K_w, pygame.K_a, pygame.K_d])
+            if obj.name == "Player1" or obj.name == "Player2" or obj.name == "Player3" or obj.name == "Player4":
+                Player((obj.x, obj.y), self.all_sprites, self.collision_sprites, keybinds_normal[obj.name], obj.image)
 
     def run(self, dt):
-        self.all_sprites.update(dt)
         self.display_surface.fill("black")
+        self.all_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
