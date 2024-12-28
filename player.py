@@ -21,10 +21,14 @@ class Player(pygame.sprite.Sprite):
         self.jump_height = 600
 
         # Collision
+        self.border_sprites = collision_sprites["borders"]
         self.normal_collision_sprites = collision_sprites["normal"]
+        self.normal_collision_rects = self.get_collision_rects(self.normal_collision_sprites)
         self.semi_collidable_sprites = collision_sprites["semi"]
         self.semi_collision_rects = [pygame.Rect((sprite.rect.x, sprite.rect.y), (sprite.rect.width, 1)) for sprite in self.semi_collidable_sprites]
         self.all_collision_sprites = pygame.sprite.Group(self.normal_collision_sprites.sprites() + self.semi_collidable_sprites.sprites())
+        self.all_collision_rects = self.normal_collision_rects + self.semi_collision_rects
+
         self.touching_sides = {
             "bottom": False,
             "left": False,  
@@ -37,6 +41,13 @@ class Player(pygame.sprite.Sprite):
             "phasing": Timer(300)
         }
     
+    def get_collision_rects(self, sprite_group):
+        collision_rects = []
+        for sprite in sprite_group:
+            if sprite not in self.border_sprites:
+                collision_rects.append(sprite.rect)
+        return collision_rects
+
     def input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector(0, 0)
@@ -88,13 +99,14 @@ class Player(pygame.sprite.Sprite):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.rect):
                 if axis == "x":
-                    # Left
-                    if self.rect.left <= sprite.rect.right and int(self.old_rect.left) >= sprite.old_rect.right:
-                        self.rect.left = sprite.rect.right
+                    if sprite not in self.semi_collidable_sprites:
+                        # Left
+                        if self.rect.left <= sprite.rect.right and int(self.old_rect.left) >= sprite.old_rect.right:
+                            self.rect.left = sprite.rect.right
 
-                    # Right
-                    if self.rect.right >= sprite.rect.left and int(self.old_rect.right) <= sprite.old_rect.left:
-                        self.rect.right = sprite.rect.left
+                        # Right
+                        if self.rect.right >= sprite.rect.left and int(self.old_rect.right) <= sprite.old_rect.left:
+                            self.rect.right = sprite.rect.left
 
                 elif axis == "y":
                     # Top
@@ -114,10 +126,11 @@ class Player(pygame.sprite.Sprite):
     def update_collision(self):
         if not self.timers["phasing"].active and not self.direction.y <= 0 and self.touching_sides["semi"]:
             self.collision_sprites = self.all_collision_sprites
+            self.collision_rects = self.all_collision_rects
         else:
             self.collision_sprites = self.normal_collision_sprites
-        self.collision_rects = [sprite.rect for sprite in self.collision_sprites]
-
+            self.collision_rects = self.normal_collision_rects
+            
     def update(self, dt):
         self.old_rect = self.rect.copy()
         self.update_timers()

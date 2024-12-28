@@ -7,6 +7,27 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "Borders.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        },
+        "D:/UserData/Aaron/Desktop/Coding/cutag - Copy/CU-Tag/Maps/Map1.tmx": {
+            "scale": 0.526953125,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 639.5255744996292,
+                "y": 368.15418828762046
+            }
+        },
+        "D:/UserData/Aaron/Desktop/Coding/cutag - Copy/CU-Tag/Maps/Platforms.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/UserData/Aaron/Desktop/Coding/cutag - Copy/CU-Tag/Maps/Players.tsx": {
+            "scaleInDock": 1
+        },
         "Level1thing.tmx": {
             "scale": 0.33,
             "selectedLayer": 0,
@@ -16,12 +37,15 @@
             }
         },
         "Map1.tmx": {
-            "scale": 0.25,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 836,
-                "y": 344
+                "x": 431.99999999999994,
+                "y": 399.33333333333326
             }
+        },
+        "Map1.tmx#Players": {
+            "dynamicWrapping": true
         },
         "Platforms.tsx": {
             "dynamicWrapping": false,
@@ -34,22 +58,25 @@
             "scaleInEditor": 1
         }
     },
+    "last.externalTilesetPath": "D:/UserData/Aaron/Desktop/Coding/cutag/CU-Tag/Maps",
     "last.imagePath": "D:/UserData/Aaron/Desktop/Coding/cutag/CU-Tag/Images",
     "map.height": 23,
     "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
-        "Platforms.tsx",
         "Map1.tmx",
-        "Players.tsx"
+        "Borders.tsx"
     ],
     "project": "Map1.tiled-project",
     "recentFiles": [
+        "Borders.tsx",
+        "Map1.tmx",
         "Platforms.tsx",
         "Players.tsx",
-        "Map1.tmx",
+        "D:/UserData/Aaron/Desktop/Coding/cutag - Copy/CU-Tag/Maps/Map1.tmx",
         "Level1thing.tmx"
     ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
-    "tileset.type": 1
+    "tileset.type": 0
 }
