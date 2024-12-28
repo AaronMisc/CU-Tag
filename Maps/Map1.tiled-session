@@ -16,11 +16,11 @@
             }
         },
         "Map1.tmx": {
-            "scale": 0.33,
+            "scale": 0.25,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 578.7878787878788,
-                "y": 396.96969696969694
+                "x": 836,
+                "y": 344
             }
         },
         "Platforms.tsx": {
