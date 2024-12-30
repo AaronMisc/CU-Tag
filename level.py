@@ -23,7 +23,7 @@ class Level:
 
         for tmx_map_opening_setting in tmx_map_opening_settings:
             for x, y, surf in tmx_map.get_layer_by_name(tmx_map_opening_setting[0]).tiles():
-                Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, tmx_map_opening_setting[1])
+                Sprite((x * TILE_SIZE, y * TILE_SIZE), tmx_map_opening_setting[1], surf)
         
         for obj in tmx_map.get_layer_by_name("Objects"):
             if obj.name == "Player1" or obj.name == "Player2" or obj.name == "Player3" or obj.name == "Player4":
