@@ -30,6 +30,5 @@ class Level:
                 Player((obj.x, obj.y), self.all_sprites, {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds_normal[obj.name], obj.image)
 
     def run(self, dt):
-        self.display_surface.fill("black")
         self.all_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)

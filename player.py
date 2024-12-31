@@ -5,20 +5,17 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites, keybinds, surface):
         super().__init__(groups)
 
-        self.image = surface
-
         # Rects
+        self.image = surface
         self.rect = self.image.get_frect(center = pos)
         self.old_rect = self.rect.copy()
-
-        self.keybinds = keybinds
 
         # Movement
         self.direction = vector()
         self.speed = 200
+        self.jump_height = 600
         self.gravity = 1200
         self.is_jumping = False
-        self.jump_height = 600
 
         # Collision
         self.border_sprites = collision_sprites["borders"]
@@ -36,10 +33,11 @@ class Player(pygame.sprite.Sprite):
             "semi": False 
         }
 
-        # Timers
-        self.timers = {
-            "phasing": Timer(300)
-        }
+        # Others
+        self.phasing_timer = Timer(300)
+
+        self.keybinds = keybinds
+        self.tagged = False
     
     def get_collision_rects(self, sprite_group):
         collision_rects = []
@@ -58,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         if keys[self.keybinds[3]]: # Right
             input_vector.x += 1
         if keys[self.keybinds[2]] and not self.is_jumping: # Down
-            self.timers["phasing"].start()
+            self.phasing_timer.start()
 
         self.direction.x = input_vector.normalize().x if input_vector else 0
 
@@ -124,7 +122,7 @@ class Player(pygame.sprite.Sprite):
             timer.update()
 
     def update_collision(self):
-        if not self.timers["phasing"].active and not self.direction.y <= 0 and self.touching_sides["semi"]:
+        if not self.phasing_timer.active and not self.direction.y <= 0 and self.touching_sides["semi"]:
             self.collision_sprites = self.all_collision_sprites
             self.collision_rects = self.all_collision_rects
         else:
