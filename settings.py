@@ -36,3 +36,15 @@ fonts = {
 
 button_cooldown_end = 0
 button_cooldown = 500
+
+game_settings = {
+    "Player speed": 200,
+    "Tagged player speed": 300,
+    "Player jump height": 600,
+    "Tagged player jump height": 600,
+    "Player gravity": 1200,
+    "Tagged player gravity": 1200,
+    "Tag cooldown": 3000
+}
+
+tag_cooldown_end = 0

@@ -2,7 +2,7 @@ from settings import *
 from pytimer import Timer
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites, keybinds, surface):
+    def __init__(self, pos, groups, collision_sprites, keybinds, surface, name):
         super().__init__(groups)
 
         # Rects
@@ -12,9 +12,9 @@ class Player(pygame.sprite.Sprite):
 
         # Movement
         self.direction = vector()
-        self.speed = 200
-        self.jump_height = 600
-        self.gravity = 1200
+        self.speed = game_settings["Player speed"]
+        self.jump_height = game_settings["Player jump height"]
+        self.gravity = game_settings["Player gravity"]
         self.is_jumping = False
 
         # Collision
@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.semi_collision_rects = [pygame.Rect((sprite.rect.x, sprite.rect.y), (sprite.rect.width, 1)) for sprite in self.semi_collidable_sprites]
         self.all_collision_sprites = pygame.sprite.Group(self.normal_collision_sprites.sprites() + self.semi_collidable_sprites.sprites())
         self.all_collision_rects = self.normal_collision_rects + self.semi_collision_rects
+        self.player_sprites = None
 
         self.touching_sides = {
             "bottom": False,
@@ -36,8 +37,10 @@ class Player(pygame.sprite.Sprite):
         # Others
         self.phasing_timer = Timer(300)
 
+        self.name = name
         self.keybinds = keybinds
         self.tagged = False
+        self.tag_time = 10000
     
     def get_collision_rects(self, sprite_group):
         collision_rects = []
@@ -117,10 +120,6 @@ class Player(pygame.sprite.Sprite):
 
                     self.direction.y = 0
 
-    def update_timers(self):
-        for timer in self.timers.values():
-            timer.update()
-
     def update_collision(self):
         if not self.phasing_timer.active and not self.direction.y <= 0 and self.touching_sides["semi"]:
             self.collision_sprites = self.all_collision_sprites
@@ -128,12 +127,36 @@ class Player(pygame.sprite.Sprite):
         else:
             self.collision_sprites = self.normal_collision_sprites
             self.collision_rects = self.normal_collision_rects
+    
+    def tag_check(self, dt):
+        print(self.name, self.tag_time)
+        self.tag_time -= dt * 1000
+
+        for sprite in self.player_sprites:
+            if sprite != self and self.rect.colliderect(sprite.rect): # If the player has tagged another player
+                print("TAGGED", sprite.name)
+                sprite.tag()
+
+                self.tagged = False
+                self.speed = game_settings["Player speed"]
+                self.jump_height = game_settings["Player jump height"]
+                self.gravity = game_settings["Player gravity"]
+    
+    def tag(self):
+        global tag_cooldown_end
+        
+        self.tagged = True
+        tag_cooldown_end = pygame.time.get_ticks() + game_settings["Tag cooldown"]
+
+        self.speed = game_settings["Tagged player speed"]
+        self.jump_height = game_settings["Tagged player jump height"]
+        self.gravity = game_settings["Tagged player gravity"]
             
     def update(self, dt):
         self.old_rect = self.rect.copy()
-        self.update_timers()
+        self.phasing_timer.update()
         self.update_collision()
         self.check_contact()
-        self.move(dt)
+        if self.tagged and pygame.time.get_ticks() >= tag_cooldown_end: self.tag_check(dt)
         self.input()
-        
+        self.move(dt)

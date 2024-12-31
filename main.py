@@ -15,14 +15,6 @@ class Game:
 
         self.game_state = "menu"
         self.current_screen = Level(self.tmx_maps[1])
-        self.game_settings = {
-            "Player speed": 200,
-            "Tagged player speed": 200,
-            "Player jump height": 600,
-            "Tagged player jump height": 600,
-            "Gravity": 1200,
-            "Tagged player gravity": 1200
-        }
 
         self.background_colour = colours["black"]
         self.show_fps = False
@@ -58,7 +50,7 @@ class Game:
                     if event.key == pygame.K_F3:
                         self.show_fps = not self.show_fps
                     
-                    if event.key == pygame.K_F1:
+                    if event.key == pygame.K_F11:
                         self.display_fullscreen = not self.display_fullscreen
                         pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE if self.display_fullscreen else pygame.FULLSCREEN)
 
@@ -72,7 +64,6 @@ class Game:
                 self.menu_buttons.draw(self.display_surface)
 
                 if mouse_click:
-                    print("checking buttons")
                     menu_button_sprites = self.menu_buttons.sprites()
                     if menu_button_sprites[0].is_clicked(): # Start
                         self.game_state = "game"
