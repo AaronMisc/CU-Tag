@@ -12,9 +12,12 @@ class Game:
         self.tmx_maps = {
             1: load_pygame(convert_filename(["Maps", "Map1.tmx"])),
         }
+        self.levels = {
+            1: Level(self.tmx_maps[1]),
+        }
 
         self.game_state = "menu"
-        self.current_screen = Level(self.tmx_maps[1])
+        self.current_level = 1
 
         self.background_colour = colours["black"]
         self.show_fps = False
@@ -79,7 +82,7 @@ class Game:
 
             elif self.game_state == "game":
                 if dt < (1 / 60): # Don't run the game at less than 60 fps
-                    self.current_screen.run(dt)
+                    self.levels[self.current_level].run(dt)
 
             elif self.game_state == "settings":
                 pass

@@ -36,15 +36,24 @@ class Level:
             if obj.name == "Player1" or obj.name == "Player2" or obj.name == "Player3" or obj.name == "Player4":
                 Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds_normal[obj.name], obj.image, obj.name)
         
-        player_sprites_list = self.player_sprites.sprites()
-        for player in player_sprites_list: # Updating player sprites
-            excluside_player_sprites_list = player_sprites_list.copy()
+        self.player_sprites_list = self.player_sprites.sprites()
+        for player in self.player_sprites_list: # Updating player sprites
+            excluside_player_sprites_list = self.player_sprites_list.copy()
             excluside_player_sprites_list.remove(player)
             player.player_sprites = excluside_player_sprites_list
 
             if player.name == "Player1":
                 player.tag()
 
+    def draw_player_tag_times(self):
+        display_text_tag_times = ""
+
+        for player in self.player_sprites_list:
+            display_text_tag_times += f"{player.name}: {int(player.tag_time)}\n"
+
+        draw_text((60, 120), display_text_tag_times, colour=colours["firebrick1"] if pygame.time.get_ticks() >= tag_cooldown_end else colours["firebrick3"], font=fonts["consolas small"], surface=self.display_surface)
+
     def run(self, dt):
         self.player_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
+        self.draw_player_tag_times()

@@ -40,7 +40,15 @@ class Player(pygame.sprite.Sprite):
         self.name = name
         self.keybinds = keybinds
         self.tagged = False
-        self.tag_time = 10000
+        self.tag_time = 60000
+
+        self.counters = {
+            "Tags": 0,
+            "Tagged": 0,
+            "Jumps": 0,
+            "Air time": 0,
+            "Move time": 0
+        }
     
     def get_collision_rects(self, sprite_group):
         collision_rects = []
@@ -67,8 +75,10 @@ class Player(pygame.sprite.Sprite):
         if self.is_jumping:
             if self.touching_sides["bottom"]:
                 self.direction.y = -self.jump_height
+                self.counters["Jumps"] += 1
             elif any((self.touching_sides["left"], self.touching_sides["right"])):
                 self.direction.y = -self.jump_height * 0.8
+                self.counters["Jumps"] += 0.5
             self.is_jumping = False
 
         # Horizontal
@@ -129,13 +139,13 @@ class Player(pygame.sprite.Sprite):
             self.collision_rects = self.normal_collision_rects
     
     def tag_check(self, dt):
-        print(self.name, self.tag_time)
         self.tag_time -= dt * 1000
 
         for sprite in self.player_sprites:
             if sprite != self and self.rect.colliderect(sprite.rect): # If the player has tagged another player
-                print("TAGGED", sprite.name)
                 sprite.tag()
+                self.counters["Tags"] += 1
+                sprite.counters["Tagged"] += 1
 
                 self.tagged = False
                 self.speed = game_settings["Player speed"]
@@ -151,7 +161,13 @@ class Player(pygame.sprite.Sprite):
         self.speed = game_settings["Tagged player speed"]
         self.jump_height = game_settings["Tagged player jump height"]
         self.gravity = game_settings["Tagged player gravity"]
-            
+
+    def update_counters(self, dt):
+        if self.direction != vector(0, 0):
+            self.counters["Move time"] += dt * 1000
+        if not any(self.touching_sides.values()):  # If the player is not touching any sides
+            self.counters["Air time"] += dt * 1000
+
     def update(self, dt):
         self.old_rect = self.rect.copy()
         self.phasing_timer.update()
@@ -160,3 +176,4 @@ class Player(pygame.sprite.Sprite):
         if self.tagged and pygame.time.get_ticks() >= tag_cooldown_end: self.tag_check(dt)
         self.input()
         self.move(dt)
+        self.update_counters(dt)
