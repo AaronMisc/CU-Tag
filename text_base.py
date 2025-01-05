@@ -13,7 +13,6 @@ def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"],
         surface.blit(text_surface, text_rect)
         pos[1] += text_surface.get_height() + line_spacing
 
-
 class Button(pygame.sprite.Sprite):
     def __init__(self, x=10, y=120, w=200, h=75, 
                  text_padding=10,
@@ -58,7 +57,7 @@ class Button(pygame.sprite.Sprite):
 
         # Draw text
         draw_text((self.text_padding, self.text_padding), self.heading_text, self.heading_text_colour, self.heading_text_font, surface=self.image)
-        draw_text((self.text_padding, self.body_text_offset), self.body_text, self.body_text_colour, self.body_text_font, surface=self.image)
+        draw_text((self.text_padding, self.body_text_offset + self.text_padding), self.body_text, self.body_text_colour, self.body_text_font, surface=self.image)
 
     def is_clicked(self):
         global button_cooldown_end, button_cooldown

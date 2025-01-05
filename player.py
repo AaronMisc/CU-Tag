@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
         self.collision("x")
 
         # Vertical
-        if not self.touching_sides["bottom"] and any((self.touching_sides["left"], self.touching_sides["right"])) and self.direction.y >= 0: # Wall sliding
+        if not self.touching_sides["bottom"] and not self.touching_sides["semi"] and any((self.touching_sides["left"], self.touching_sides["right"])) and self.direction.y >= 0: # Wall sliding
             self.rect.y += self.gravity / 10 * dt
         else: # Falling
             self.direction.y += self.gravity / 2 * dt
@@ -94,9 +94,9 @@ class Player(pygame.sprite.Sprite):
             self.direction.y += self.gravity / 2 * dt
         self.collision("y")
     
-    def check_contact(self):
+    def update_touching_sides(self):
         bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 2))
-        semi_bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 32))
+        semi_bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 8))
         left_rect = pygame.Rect(self.rect.topleft + vector(-2, self.rect.height/4), (2, self.rect.height / 2))
         right_rect = pygame.Rect((self.rect.topright + vector(0, self.rect.height/4), (2, self.rect.height / 2)))
 
@@ -172,7 +172,7 @@ class Player(pygame.sprite.Sprite):
         self.old_rect = self.rect.copy()
         self.phasing_timer.update()
         self.update_collision()
-        self.check_contact()
+        self.update_touching_sides()
         if self.tagged and pygame.time.get_ticks() >= tag_cooldown_end: self.tag_check(dt)
         self.input()
         self.move(dt)

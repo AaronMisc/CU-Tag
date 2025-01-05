@@ -31,7 +31,8 @@ fonts = {
     "consolas": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 32),
     "consolas small": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 16),
     "consolas bold": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 48),
-    "consolas bold small": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 24)
+    "consolas bold small": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 24),
+    "consolas title": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 128)
 }
 
 button_cooldown_end = 0

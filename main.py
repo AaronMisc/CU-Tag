@@ -12,12 +12,8 @@ class Game:
         self.tmx_maps = {
             1: load_pygame(convert_filename(["Maps", "Map1.tmx"])),
         }
-        self.levels = {
-            1: Level(self.tmx_maps[1]),
-        }
 
         self.game_state = "menu"
-        self.current_level = 1
 
         self.background_colour = colours["black"]
         self.show_fps = False
@@ -28,11 +24,11 @@ class Game:
     def create_buttons(self):
         # Menu
         self.menu_buttons = pygame.sprite.Group(
-            Button(x=10, y=120, w=200, h=75, heading_text="Start", body_text="Start a new game"),
-            Button(x=10, y=240, w=200, h=75, heading_text="Settings", body_text="Change and view settings"),
-            Button(x=10, y=360, w=200, h=75, heading_text="Instructions", body_text="How to play"),
-            Button(x=10, y=480, w=200, h=75, heading_text="Credits", body_text="View credits"),
-            Button(x=10, y=600, w=200, h=75, heading_text="Quit", body_text="Quit the game")
+            Button(x=440, y=160, w=400, h=150, heading_text="Start", heading_text_font=fonts["consolas bold"], body_text="Start a new game", body_text_font=fonts["consolas"], body_text_offset=40),
+            Button(x=10, y=10, w=300, h=75, heading_text="Settings", body_text="Change and view settings"),
+            Button(x=10, y=110, w=300, h=75, heading_text="Instructions", body_text="How to play"),
+            Button(x=10, y=210, w=300, h=75, heading_text="Credits", body_text="View credits"),
+            Button(x=1070, y=635, w=200, h=75, heading_text="Quit", body_text="Quit the game")
         )
 
         self.return_buttons = pygame.sprite.Group()
@@ -56,13 +52,16 @@ class Game:
                     if event.key == pygame.K_F11:
                         self.display_fullscreen = not self.display_fullscreen
                         pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE if self.display_fullscreen else pygame.FULLSCREEN)
+                    
+                    if event.key == pygame.K_F7:
+                        print(pygame.mouse.get_pos())
 
             self.display_surface.fill(self.background_colour)
             
             if self.game_state == "menu":
                 mouse_click = pygame.mouse.get_pressed()[0]
 
-                draw_text((10, 10), "Tag", font=fonts["consolas bold"], surface=self.display_surface)
+                draw_text((360, 30), "AM - Tag", font=fonts["consolas title"], surface=self.display_surface)
                 self.menu_buttons.update()
                 self.menu_buttons.draw(self.display_surface)
 
@@ -70,6 +69,7 @@ class Game:
                     menu_button_sprites = self.menu_buttons.sprites()
                     if menu_button_sprites[0].is_clicked(): # Start
                         self.game_state = "game"
+                        self.game_level = Level(self.tmx_maps[1])
                     if menu_button_sprites[1].is_clicked(): # Settings
                         self.game_state = "settings"
                     if menu_button_sprites[2].is_clicked(): # Instructions
@@ -82,7 +82,7 @@ class Game:
 
             elif self.game_state == "game":
                 if dt < (1 / 60): # Don't run the game at less than 60 fps
-                    self.levels[self.current_level].run(dt)
+                    self.game_level.run(dt)
 
             elif self.game_state == "settings":
                 pass
