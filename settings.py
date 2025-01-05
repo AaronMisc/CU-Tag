@@ -1,7 +1,9 @@
 import pygame
 from sys import exit
 from pygame.math import Vector2 as vector
+from math import ceil
 from os.path import join
+from random import choice
 
 file_pre_path = ""
 try:
@@ -16,6 +18,7 @@ def convert_filename(path:list):
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
 TILE_SIZE = 32
+front_surface = pygame.surface.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA) # Surface at the front
 
 keybinds_normal = {
     "Player1": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
@@ -49,3 +52,9 @@ game_settings = {
 }
 
 tag_cooldown_end = 0
+
+tag_time_colours = {
+    3: colours["red"],
+    2: colours["yellow"],
+    1: colours["green"],
+}

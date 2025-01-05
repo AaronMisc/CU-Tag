@@ -18,6 +18,7 @@ class Game:
         self.background_colour = colours["black"]
         self.show_fps = False
         self.display_fullscreen = False
+        self.tag_cooldown_end = 0
 
         self.create_buttons()
 
@@ -34,7 +35,7 @@ class Game:
         self.return_buttons = pygame.sprite.Group()
     
     def run(self):
-        global button_cooldown_end
+        global button_cooldown_end, front_surface
 
         while True:
             dt = self.clock.tick() / 1000
@@ -95,8 +96,12 @@ class Game:
 
             if self.show_fps:
                 draw_text((60, 60), f"FPS: {int(self.clock.get_fps())}", surface=self.display_surface)
+
+            self.display_surface.blit(front_surface, (0, 0))
            
             pygame.display.update()
+
+            front_surface.fill((0, 0, 0, 0))
     
     def stop(self):
         pygame.quit()

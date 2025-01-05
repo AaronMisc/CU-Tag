@@ -1,5 +1,6 @@
 from settings import *
 from pytimer import Timer
+from text_base import draw_text
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites, keybinds, surface, name):
@@ -49,6 +50,7 @@ class Player(pygame.sprite.Sprite):
             "Air time": 0,
             "Move time": 0
         }
+        self.current_time = pygame.time.get_ticks()
     
     def get_collision_rects(self, sprite_group):
         collision_rects = []
@@ -137,26 +139,45 @@ class Player(pygame.sprite.Sprite):
         else:
             self.collision_sprites = self.normal_collision_sprites
             self.collision_rects = self.normal_collision_rects
-    
+
+    def tag_display(self):
+        global front_surface
+
+        remaining_tagged_time = ceil((self.tag_cooldown_end - self.current_time) / 1000)
+
+        draw_text((self.rect.x + 2, self.rect.y - 50), str(remaining_tagged_time) if remaining_tagged_time > 0 else "T", tag_time_colours[remaining_tagged_time] if remaining_tagged_time > 0 else colours["white"], fonts["consolas bold"], surface=front_surface)
+
     def tag_check(self, dt):
         self.tag_time -= dt * 1000
 
+        taggable_sprites = []
+
         for sprite in self.player_sprites:
             if sprite != self and self.rect.colliderect(sprite.rect): # If the player has tagged another player
-                sprite.tag()
-                self.counters["Tags"] += 1
-                sprite.counters["Tagged"] += 1
-
-                self.tagged = False
-                self.speed = game_settings["Player speed"]
-                self.jump_height = game_settings["Player jump height"]
-                self.gravity = game_settings["Player gravity"]
-    
-    def tag(self):
-        global tag_cooldown_end
+                taggable_sprites.append([sprite, sprite.tag_time])
         
+        if taggable_sprites == []:
+            return
+        
+        taggable_sprites.sort(key=lambda x: x[1], reverse=True) # Sort by tag time
+        if len(taggable_sprites) > 1 and taggable_sprites[0][0] == taggable_sprites[1][0]: # If there are players with the same tag time
+            taggable_sprites = [sprite for sprite in taggable_sprites if sprite[1] == taggable_sprites[0][1]]
+            tag_sprite = choice(taggable_sprites)
+        else:
+            tag_sprite = taggable_sprites[0][0]
+    
+        tag_sprite.tag()
+        self.counters["Tags"] += 1
+        sprite.counters["Tagged"] += 1
+
+        self.tagged = False
+        self.speed = game_settings["Player speed"]
+        self.jump_height = game_settings["Player jump height"]
+        self.gravity = game_settings["Player gravity"]
+    
+    def tag(self):     
         self.tagged = True
-        tag_cooldown_end = pygame.time.get_ticks() + game_settings["Tag cooldown"]
+        self.tag_cooldown_end = self.current_time + game_settings["Tag cooldown"]
 
         self.speed = game_settings["Tagged player speed"]
         self.jump_height = game_settings["Tagged player jump height"]
@@ -170,10 +191,13 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, dt):
         self.old_rect = self.rect.copy()
+        self.current_time = pygame.time.get_ticks()
         self.phasing_timer.update()
         self.update_collision()
         self.update_touching_sides()
-        if self.tagged and pygame.time.get_ticks() >= tag_cooldown_end: self.tag_check(dt)
+        if self.tagged:
+            if self.tag_cooldown_end < self.current_time: self.tag_check(dt)
+            self.tag_display()
         self.input()
         self.move(dt)
         self.update_counters(dt)
