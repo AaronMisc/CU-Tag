@@ -17,18 +17,9 @@ def convert_filename(path:list):
     return join(*path)
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
-TILE_SIZE = 32
 front_surface = pygame.surface.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA) # Surface at the front
 
-keybinds_normal = {
-    "Player1": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
-    "Player2": [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT],
-    "Player3": [pygame.K_t, pygame.K_f, pygame.K_g, pygame.K_h],
-    "Player4": [pygame.K_i, pygame.K_j, pygame.K_k, pygame.K_l]
-}
-
 colours = pygame.colordict.THECOLORS
-
 pygame.font.init()
 fonts = {
     "consolas": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 32),
@@ -50,9 +41,21 @@ game_settings = {
     "Tagged player gravity": 1200,
     "Tag cooldown": 3000
 }
+keybinds_normal = {
+    "Player1": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
+    "Player2": [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT],
+    "Player3": [pygame.K_t, pygame.K_f, pygame.K_g, pygame.K_h],
+    "Player4": [pygame.K_i, pygame.K_j, pygame.K_k, pygame.K_l]
+}
+
+show_any_text = True
+label_player_names = False
+label_player_keybinds = False
+label_player_tag_times = False
+show_player_tag_times = True
+show_stats = False
 
 tag_cooldown_end = 0
-
 tag_time_colours = {
     3: colours["red"],
     2: colours["yellow"],

@@ -183,6 +183,15 @@ class Player(pygame.sprite.Sprite):
         self.jump_height = game_settings["Tagged player jump height"]
         self.gravity = game_settings["Tagged player gravity"]
 
+    def display_text(self):
+        global label_player_names, label_player_keybinds, label_player_tag_times
+        if label_player_names:
+            draw_text((self.rect.x, self.rect.y - 40), self.name, colours["white"], fonts["consolas bold small"], centred=True, surface=front_surface)
+        if label_player_keybinds:
+            draw_text((self.rect.x, self.rect.y - 30), keys_to_names(self.keys), colours["skyblue1"], fonts["consolas small"], centred=True, surface=front_surface)
+        if label_player_tag_times:
+            draw_text((self.rect.x, self.rect.y - 20), str(int(self.tag_time)), colours["firebrick1"], fonts["consolas small"], centred=True, surface=front_surface)
+
     def update_counters(self, dt):
         if self.direction != vector(0, 0):
             self.counters["Move time"] += dt * 1000
@@ -190,6 +199,8 @@ class Player(pygame.sprite.Sprite):
             self.counters["Air time"] += dt * 1000
 
     def update(self, dt):
+        global show_any_text
+
         self.old_rect = self.rect.copy()
         self.current_time = pygame.time.get_ticks()
         self.phasing_timer.update()
@@ -198,6 +209,10 @@ class Player(pygame.sprite.Sprite):
         if self.tagged:
             if self.tag_cooldown_end < self.current_time: self.tag_check(dt)
             self.tag_display()
+        if show_any_text: self.display_text()
         self.input()
         self.move(dt)
         self.update_counters(dt)
+
+def keys_to_names(keys):
+    return ", ".join(pygame.key.name(key) for key in keys)

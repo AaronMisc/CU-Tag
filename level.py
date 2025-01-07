@@ -4,8 +4,9 @@ from player import *
 from pytimer import Timer
 
 class Level:
-    def __init__(self, tmx_map, offset = 16):
+    def __init__(self, tmx_map, offset=16, tile_size=32):
         self.offset = offset
+        self.tile_size = tile_size
         self.tag_cooldown_timer = Timer(game_settings["Tag cooldown"])
 
         self.display_surface = pygame.display.get_surface()
@@ -29,7 +30,7 @@ class Level:
         # Map setup
         for tmx_map_opening_setting in tmx_map_opening_settings:
             for x, y, surf in tmx_map.get_layer_by_name(tmx_map_opening_setting[0]).tiles():
-                Sprite((x * TILE_SIZE + self.offset, y * TILE_SIZE + self.offset), tmx_map_opening_setting[1], surf)
+                Sprite((x * self.tile_size + self.offset, y * self.tile_size + self.offset), tmx_map_opening_setting[1], surf)
         
         # Player setup
         for obj in tmx_map.get_layer_by_name("Objects"):
@@ -46,6 +47,7 @@ class Level:
                 player.tag()
 
     def draw_player_tag_times(self):
+        global show_player_tag_times
         display_text_tag_times = ""
 
         for player in self.player_sprites_list:
@@ -54,6 +56,8 @@ class Level:
         draw_text((60, 120), display_text_tag_times, colour=colours["firebrick1"] if pygame.time.get_ticks() >= tag_cooldown_end else colours["firebrick3"], font=fonts["consolas small"], surface=self.display_surface)
 
     def run(self, dt):
+        global show_player_tag_times, show_any_text
+
         self.player_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
-        self.draw_player_tag_times()
+        if show_any_text and show_player_tag_times: self.draw_player_tag_times()

@@ -35,7 +35,7 @@ class Game:
         self.return_buttons = pygame.sprite.Group()
     
     def run(self):
-        global button_cooldown_end, front_surface
+        global button_cooldown_end, front_surface, show_any_text, label_player_keybinds, label_player_names, label_player_tag_times, show_player_tag_times
 
         while True:
             dt = self.clock.tick() / 1000
@@ -47,8 +47,6 @@ class Game:
                     button_cooldown_end = 0
                 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_F3:
-                        self.show_fps = not self.show_fps
                     
                     if event.key == pygame.K_F11:
                         self.display_fullscreen = not self.display_fullscreen
@@ -56,6 +54,19 @@ class Game:
                     
                     if event.key == pygame.K_F7:
                         print(pygame.mouse.get_pos())
+
+                    if event.key == pygame.K_F1:
+                        show_any_text = not show_any_text
+                    if event.key == pygame.K_F2:
+                        label_player_names = not label_player_names  
+                    if event.key == pygame.K_F3:
+                        self.show_fps = not self.show_fps                  
+                    if event.key == pygame.K_F4:
+                        label_player_keybinds = not label_player_keybinds                    
+                    if event.key == pygame.K_F5:
+                        label_player_tag_times = not label_player_tag_times
+                    if event.key == pygame.K_F6:
+                        show_player_tag_times = not show_player_tag_times
 
             self.display_surface.fill(self.background_colour)
             
@@ -94,8 +105,9 @@ class Game:
             elif self.game_state == "credits":
                 pass
 
-            if self.show_fps:
-                draw_text((60, 60), f"FPS: {int(self.clock.get_fps())}", surface=self.display_surface)
+            if show_any_text:
+                if self.show_fps:
+                    draw_text((60, 60), f"FPS: {int(self.clock.get_fps())}", surface=self.display_surface)
 
             self.display_surface.blit(front_surface, (0, 0))
            

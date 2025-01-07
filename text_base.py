@@ -2,9 +2,11 @@ from settings import *
 
 pygame.init()
 
-def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"], line_spacing=5, surface=pygame.display.get_surface()):
+def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"], line_spacing=5, centred=False, surface=pygame.display.get_surface()):
     if not isinstance(pos, list):
         pos = list(pos)
+    if centred:
+        pos[0] -= font.size(text)[0] // 2
 
     lines = text.split("\n")
     for line in lines:
