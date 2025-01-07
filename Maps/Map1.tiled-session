@@ -11,6 +11,7 @@
             "scaleInDock": 1
         },
         "Borders.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 4
         },
@@ -37,11 +38,11 @@
             }
         },
         "Map1.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 0,
+            "scale": 0.33,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 431.99999999999994,
-                "y": 399.33333333333326
+                "x": 736.3636363636364,
+                "y": 569.6969696969696
             }
         },
         "Map1.tmx#Players": {
@@ -55,7 +56,7 @@
         "Players.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 4
         }
     },
     "last.externalTilesetPath": "D:/UserData/Aaron/Desktop/Coding/cutag/CU-Tag/Maps",
@@ -65,14 +66,15 @@
     "map.width": 40,
     "openFiles": [
         "Map1.tmx",
-        "Borders.tsx"
+        "Borders.tsx",
+        "Players.tsx"
     ],
     "project": "Map1.tiled-project",
     "recentFiles": [
+        "Players.tsx",
         "Borders.tsx",
         "Map1.tmx",
         "Platforms.tsx",
-        "Players.tsx",
         "D:/UserData/Aaron/Desktop/Coding/cutag - Copy/CU-Tag/Maps/Map1.tmx",
         "Level1thing.tmx"
     ],
