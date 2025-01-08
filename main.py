@@ -11,6 +11,7 @@ class Game:
 
         self.tmx_maps = {
             1: load_pygame(convert_filename(["Maps", "Map1.tmx"])),
+            2: load_pygame(convert_filename(["Maps", "Map2.tmx"]))
         }
 
         self.game_state = "menu"
@@ -105,9 +106,8 @@ class Game:
             elif self.game_state == "credits":
                 pass
 
-            if show_any_text:
-                if self.show_fps:
-                    draw_text((60, 60), f"FPS: {int(self.clock.get_fps())}", surface=self.display_surface)
+            if self.show_fps:
+                draw_text((60, 60), f"FPS: {int(self.clock.get_fps())}", surface=self.display_surface)
 
             self.display_surface.blit(front_surface, (0, 0))
            

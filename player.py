@@ -62,14 +62,14 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector(0, 0)
-        if keys[self.keybinds[0]]: # Jump
+        if keys[self.keybinds[1]]: # Jump WAS 0
             self.is_jumping = True
-        if keys[self.keybinds[1]]: # Left
+        if keys[self.keybinds[0]]: # Left WAS 1
             input_vector.x -= 1
-        if keys[self.keybinds[3]]: # Right
+        if keys[self.keybinds[2]]: # Right (WAS 3)
             input_vector.x += 1
-        if keys[self.keybinds[2]] and not self.is_jumping: # Down
-            self.phasing_timer.start()
+        # if keys[self.keybinds] and not self.is_jumping: # Down
+        #     self.phasing_timer.start()
 
         self.direction.x = input_vector.normalize().x if input_vector else 0
 
@@ -199,8 +199,6 @@ class Player(pygame.sprite.Sprite):
             self.counters["Air time"] += dt * 1000
 
     def update(self, dt):
-        global show_any_text
-
         self.old_rect = self.rect.copy()
         self.current_time = pygame.time.get_ticks()
         self.phasing_timer.update()
@@ -209,10 +207,7 @@ class Player(pygame.sprite.Sprite):
         if self.tagged:
             if self.tag_cooldown_end < self.current_time: self.tag_check(dt)
             self.tag_display()
-        if show_any_text: self.display_text()
+        self.display_text()
         self.input()
         self.move(dt)
         self.update_counters(dt)
-
-def keys_to_names(keys):
-    return ", ".join(pygame.key.name(key) for key in keys)

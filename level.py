@@ -33,9 +33,8 @@ class Level:
                 Sprite((x * self.tile_size + self.offset, y * self.tile_size + self.offset), tmx_map_opening_setting[1], surf)
         
         # Player setup
-        for obj in tmx_map.get_layer_by_name("Objects"):
-            if obj.name == "Player1" or obj.name == "Player2" or obj.name == "Player3" or obj.name == "Player4": #
-                Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds_normal[obj.name], obj.image, obj.name)
+        for obj in tmx_map.get_layer_by_name("Objects"): 
+            Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds["max"][obj.name], obj.image, obj.name)
         
         self.player_sprites_list = self.player_sprites.sprites()
         for player in self.player_sprites_list: # Updating player sprites
@@ -51,13 +50,13 @@ class Level:
         display_text_tag_times = ""
 
         for player in self.player_sprites_list:
-            display_text_tag_times += f"{player.name}: {int(player.tag_time)}\n"
+            display_text_tag_times += f"{player.name} ({keys_to_names(player.keybinds)}): {int(player.tag_time)}\n"
 
         draw_text((60, 120), display_text_tag_times, colour=colours["firebrick1"] if pygame.time.get_ticks() >= tag_cooldown_end else colours["firebrick3"], font=fonts["consolas small"], surface=self.display_surface)
 
     def run(self, dt):
-        global show_player_tag_times, show_any_text
+        global show_player_tag_times
 
         self.player_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
-        if show_any_text and show_player_tag_times: self.draw_player_tag_times()
+        if show_player_tag_times: self.draw_player_tag_times()
