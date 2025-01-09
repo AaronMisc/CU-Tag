@@ -35,15 +35,6 @@ fonts = {
 button_cooldown_end = 0
 button_cooldown = 500
 
-game_settings = {
-    "Player speed": 200,
-    "Tagged player speed": 300,
-    "Player jump height": 600,
-    "Tagged player jump height": 600,
-    "Player gravity": 1200,
-    "Tagged player gravity": 1200,
-    "Tag cooldown": 3000
-}
 keybinds = {
     "normal": {
         "Player1": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
@@ -81,11 +72,32 @@ keybinds = {
     }
 }
 
-label_player_names = False
-label_player_keybinds = False
-label_player_tag_times = False
-show_player_tag_times = True
-show_stats = False
+text_settings = {
+    "Label player names": [True, "Label the player names above players. Toggle with F2."],
+    "Label player keybinds": [True, "Label the keybinds above players. Toggle with F4."],
+    "Label player tag times": [True, "Label the player names above the player. Toggle with F5."],
+    "Show player tag times": [True, "Show the player tag times in the top left. Toggle with F1."],
+    "Show stats": [False, "Show player stats on the top. Toggle with F1."]
+}
+movement_settings = {
+    "Player speed": [200, "How fast the non-tagged player(s) move (left and right)."],
+    "Tagged player speed": [300, "How fast the tagged player(s) move (left and right)."],
+    "Player jump height": [600, "How high the players jump. Not linear."],
+    "Tagged player jump height": [600, "How high the tagged player(s) jumps."],
+    "Player gravity": [1200, "Gravity amount affecting the players."],
+    "Tagged player gravity": [1200, "Gravity amount affect the tagged player(s)"],
+    "Wall sliding allowed": [True, "Make the players fall slower when touching a wall."],
+    "Wall jumping": [True, "Allows the players to jump when touching a wall."],
+    "Wall detection lenience": [2, "How close you have to be to the ball for wall sliding and jumping."]
+}
+game_settings = {
+    "Player amount": [2, "How many players are in the game."],
+    "Keybind type": ["Normal", "What set of keybinds to use. Normal is confortable, up to 4 players. Compact is tight, up to 8 players. Max is black-hole enducing, with each player getting 3 keys, pressing all keys makes them go down, (suggested) for multiple keyboards."],
+    "Game mode": ["Endless", "Endless will never end. Countdown ends after the tag time of a player reaches 0. Tags ends after a player gets tagged to much. Claim is when all players get tagged, you can't get un-tagged. Multi allows multiple players to get tagged and is endless."],
+    "Tag time": [60000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode."],
+    "Tag cooldown": [3000, "How long the tagged player(s) can't tag for after just being tagged. In milliseconds."],
+    "Map": [1, "Which map to use. It is recommended to use the map selector."]
+}
 
 tag_cooldown_end = 0
 tag_time_colours = {

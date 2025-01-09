@@ -7,7 +7,7 @@ class Level:
     def __init__(self, tmx_map, offset=16, tile_size=32):
         self.offset = offset
         self.tile_size = tile_size
-        self.tag_cooldown_timer = Timer(game_settings["Tag cooldown"])
+        self.tag_cooldown_timer = Timer(game_settings["Tag cooldown"][0])
 
         self.display_surface = pygame.display.get_surface()
 
@@ -55,8 +55,8 @@ class Level:
         draw_text((60, 120), display_text_tag_times, colour=colours["firebrick1"] if pygame.time.get_ticks() >= tag_cooldown_end else colours["firebrick3"], font=fonts["consolas small"], surface=self.display_surface)
 
     def run(self, dt):
-        global show_player_tag_times
+        global text_settings
 
         self.player_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
-        if show_player_tag_times: self.draw_player_tag_times()
+        if text_settings["Show player tag times"][0]: self.draw_player_tag_times()

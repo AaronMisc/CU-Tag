@@ -13,9 +13,9 @@ class Player(pygame.sprite.Sprite):
 
         # Movement
         self.direction = vector()
-        self.speed = game_settings["Player speed"]
-        self.jump_height = game_settings["Player jump height"]
-        self.gravity = game_settings["Player gravity"]
+        self.speed = movement_settings["Player speed"][0]
+        self.jump_height = movement_settings["Player jump height"][0]
+        self.gravity = movement_settings["Player gravity"][0]
         self.is_jumping = False
 
         # Collision
@@ -140,13 +140,6 @@ class Player(pygame.sprite.Sprite):
             self.collision_sprites = self.normal_collision_sprites
             self.collision_rects = self.normal_collision_rects
 
-    def tag_display(self):
-        global front_surface
-
-        remaining_tagged_time = ceil((self.tag_cooldown_end - self.current_time) / 1000)
-
-        draw_text((self.rect.x + 2, self.rect.y - 50), str(remaining_tagged_time) if remaining_tagged_time > 0 else "T", tag_time_colours[remaining_tagged_time] if remaining_tagged_time > 0 else colours["white"], fonts["consolas bold"], surface=front_surface)
-
     def tag_check(self, dt):
         self.tag_time -= dt * 1000
 
@@ -171,26 +164,35 @@ class Player(pygame.sprite.Sprite):
         sprite.counters["Tagged"] += 1
 
         self.tagged = False
-        self.speed = game_settings["Player speed"]
-        self.jump_height = game_settings["Player jump height"]
-        self.gravity = game_settings["Player gravity"]
+        self.speed =  movement_settings["Player speed"][0]
+        self.jump_height =  movement_settings["Player jump height"][0]
+        self.gravity =  movement_settings["Player gravity"][0]
     
     def tag(self):     
         self.tagged = True
-        self.tag_cooldown_end = self.current_time + game_settings["Tag cooldown"]
+        self.tag_cooldown_end = self.current_time + game_settings["Tag cooldown"][0]
 
-        self.speed = game_settings["Tagged player speed"]
-        self.jump_height = game_settings["Tagged player jump height"]
-        self.gravity = game_settings["Tagged player gravity"]
+        self.speed =  movement_settings["Tagged player speed"][0]
+        self.jump_height =  movement_settings["Tagged player jump height"][0]
+        self.gravity =  movement_settings["Tagged player gravity"][0]
 
     def display_text(self):
-        global label_player_names, label_player_keybinds, label_player_tag_times
-        if label_player_names:
-            draw_text((self.rect.x, self.rect.y - 40), self.name, colours["white"], fonts["consolas bold small"], centred=True, surface=front_surface)
-        if label_player_keybinds:
-            draw_text((self.rect.x, self.rect.y - 30), keys_to_names(self.keys), colours["skyblue1"], fonts["consolas small"], centred=True, surface=front_surface)
-        if label_player_tag_times:
-            draw_text((self.rect.x, self.rect.y - 20), str(int(self.tag_time)), colours["firebrick1"], fonts["consolas small"], centred=True, surface=front_surface)
+        global text_settings
+        x_pos = self.rect.x + self.rect.width // 2
+        y_offset = 0
+        if text_settings["Label player tag times"][0]:
+            y_offset += 16
+            draw_text((x_pos, self.rect.y - y_offset), str(int(self.tag_time)), colours["firebrick1"], fonts["consolas small"], centred=True, surface=front_surface)
+        if text_settings["Label player keybinds"][0]:
+            y_offset += 16
+            draw_text((x_pos, self.rect.y - y_offset), keys_to_names(self.keybinds), colours["skyblue1"], fonts["consolas small"], centred=True, surface=front_surface)
+        if text_settings["Label player names"][0]:
+            y_offset += 24
+            draw_text((x_pos, self.rect.y - y_offset), self.name, colours["white"], fonts["consolas bold small"], centred=True, surface=front_surface)
+        if self.tagged:
+            y_offset += 40
+            remaining_tagged_time = ceil((self.tag_cooldown_end - self.current_time) / 1000)
+            draw_text((self.rect.x + 2, self.rect.y - y_offset), str(remaining_tagged_time) if remaining_tagged_time > 0 else "T", tag_time_colours[remaining_tagged_time] if remaining_tagged_time > 0 else colours["white"], fonts["consolas bold"], surface=front_surface)
 
     def update_counters(self, dt):
         if self.direction != vector(0, 0):
@@ -206,8 +208,7 @@ class Player(pygame.sprite.Sprite):
         self.update_touching_sides()
         if self.tagged:
             if self.tag_cooldown_end < self.current_time: self.tag_check(dt)
-            self.tag_display()
-        self.display_text()
         self.input()
         self.move(dt)
+        self.display_text()
         self.update_counters(dt)

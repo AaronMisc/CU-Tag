@@ -57,11 +57,14 @@
             "dynamicWrapping": true
         },
         "Map2.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 0.5,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 600,
-                "y": 299
+                "x": 640,
+                "y": 271
             }
         },
         "Platforms.tsx": {

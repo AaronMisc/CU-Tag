@@ -36,7 +36,7 @@ class Game:
         self.return_buttons = pygame.sprite.Group()
     
     def run(self):
-        global button_cooldown_end, front_surface, show_any_text, label_player_keybinds, label_player_names, label_player_tag_times, show_player_tag_times
+        global button_cooldown_end, front_surface, text_settings
 
         while True:
             dt = self.clock.tick() / 1000
@@ -56,18 +56,16 @@ class Game:
                     if event.key == pygame.K_F7:
                         print(pygame.mouse.get_pos())
 
-                    if event.key == pygame.K_F1:
-                        show_any_text = not show_any_text
                     if event.key == pygame.K_F2:
-                        label_player_names = not label_player_names  
+                        text_settings["Label player names"][0] = not text_settings["Label player names"][0]
                     if event.key == pygame.K_F3:
                         self.show_fps = not self.show_fps                  
                     if event.key == pygame.K_F4:
-                        label_player_keybinds = not label_player_keybinds                    
+                        text_settings["Label player keybinds"][0] = not text_settings["Label player keybinds"][0]
                     if event.key == pygame.K_F5:
-                        label_player_tag_times = not label_player_tag_times
+                        text_settings["Label player tag times"][0] = not text_settings["Label player tag times"][0]
                     if event.key == pygame.K_F6:
-                        show_player_tag_times = not show_player_tag_times
+                        text_settings["Show player tag times"][0] = not text_settings["Show player tag times"][0]
 
             self.display_surface.fill(self.background_colour)
             
@@ -82,7 +80,7 @@ class Game:
                     menu_button_sprites = self.menu_buttons.sprites()
                     if menu_button_sprites[0].is_clicked(): # Start
                         self.game_state = "game"
-                        self.game_level = Level(self.tmx_maps[1])
+                        self.game_level = Level(self.tmx_maps[2])
                     if menu_button_sprites[1].is_clicked(): # Settings
                         self.game_state = "settings"
                     if menu_button_sprites[2].is_clicked(): # Instructions
@@ -94,7 +92,7 @@ class Game:
                 
 
             elif self.game_state == "game":
-                if dt < (1 / 60): # Don't run the game at less than 60 fps
+                if dt < (1 / 20): # Don't run the game at less than 20 fps
                     self.game_level.run(dt)
 
             elif self.game_state == "settings":
