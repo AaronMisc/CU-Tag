@@ -37,20 +37,20 @@ button_cooldown = 500
 
 keybinds = {
     "normal": {
-        "Player1": [pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d],
-        "Player2": [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT],
-        "Player3": [pygame.K_t, pygame.K_f, pygame.K_g, pygame.K_h],
-        "Player4": [pygame.K_i, pygame.K_j, pygame.K_k, pygame.K_l]
+        "Player1": [pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_s],
+        "Player2": [pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_DOWN],
+        "Player3": [pygame.K_t, pygame.K_f, pygame.K_h, pygame.K_g],
+        "Player4": [pygame.K_i, pygame.K_j, pygame.K_l, pygame.K_k]
     },
     "compact": {
-        "Player1": [pygame.K_2, pygame.K_q, pygame.K_w, pygame.K_e],
-        "Player2": [pygame.K_s, pygame.K_z, pygame.K_x, pygame.K_c],
-        "Player3": [pygame.K_5, pygame.K_r, pygame.K_t, pygame.K_y],
-        "Player4": [pygame.K_g, pygame.K_v, pygame.K_b, pygame.K_n],
-        "Player5": [pygame.K_8, pygame.K_u, pygame.K_i, pygame.K_o],
-        "Player6": [pygame.K_k, pygame.K_m, pygame.K_COMMA, pygame.K_PERIOD],
-        "Player7": [pygame.K_MINUS, pygame.K_p, pygame.K_LEFTBRACKET, pygame.K_RIGHTBRACKET],
-        "Player8": [pygame.K_UP, pygame.K_LEFT, pygame.K_DOWN, pygame.K_RIGHT]
+        "Player1": [pygame.K_2, pygame.K_q, pygame.K_e, pygame.K_w],
+        "Player2": [pygame.K_s, pygame.K_z, pygame.K_c, pygame.K_x],
+        "Player3": [pygame.K_5, pygame.K_r, pygame.K_y, pygame.K_t],
+        "Player4": [pygame.K_g, pygame.K_v, pygame.K_n, pygame.K_b],
+        "Player5": [pygame.K_8, pygame.K_u, pygame.K_o, pygame.K_i],
+        "Player6": [pygame.K_k, pygame.K_m, pygame.K_PERIOD, pygame.K_COMMA],
+        "Player7": [pygame.K_MINUS, pygame.K_p, pygame.K_RIGHTBRACKET, pygame.K_LEFTBRACKET],
+        "Player8": [pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_DOWN]
     },
     "max": {
         "Player1": [pygame.K_1, pygame.K_2, pygame.K_3],

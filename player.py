@@ -62,14 +62,20 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector(0, 0)
-        if keys[self.keybinds[1]]: # Jump WAS 0
-            self.is_jumping = True
-        if keys[self.keybinds[0]]: # Left WAS 1
-            input_vector.x -= 1
-        if keys[self.keybinds[2]]: # Right (WAS 3)
-            input_vector.x += 1
-        # if keys[self.keybinds] and not self.is_jumping: # Down
-        #     self.phasing_timer.start()
+
+        if len(self.keybinds) == 4:
+            down_key = keys[self.keybinds[3]]
+        else:
+            down_key = keys[self.keybinds[0]] and keys[self.keybinds[2]]
+        if down_key: # Down
+            self.phasing_timer.start()
+        else:
+            if keys[self.keybinds[0]]: # Left
+                input_vector.x -= 1
+            if keys[self.keybinds[1]]: # Jump
+                self.is_jumping = True
+            if keys[self.keybinds[2]]: # Right
+                input_vector.x += 1
 
         self.direction.x = input_vector.normalize().x if input_vector else 0
 
