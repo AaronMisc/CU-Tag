@@ -3,9 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Map2.tmx",
+    "activeFile": "MapT2.tmx",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1
@@ -67,6 +68,30 @@
                 "y": 271
             }
         },
+        "MapA1.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 640,
+                "y": 367
+            }
+        },
+        "MapT1.tmx": {
+            "scale": 0.5254687499999999,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 639.4290811775201,
+                "y": 368.24264049955406
+            }
+        },
+        "MapT2.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 566,
+                "y": 365
+            }
+        },
         "Platforms.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
@@ -84,16 +109,18 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
-        "Map1.tmx",
-        "Borders.tsx",
-        "Players.tsx",
-        "Map2.tmx"
+        "MapA1.tmx",
+        "MapT1.tmx",
+        "MapT2.tmx"
     ],
     "project": "Map1.tiled-project",
     "recentFiles": [
-        "Map1.tmx",
+        "MapA1.tmx",
+        "MapT1.tmx",
+        "MapT2.tmx",
         "Borders.tsx",
         "Players.tsx",
+        "Map1.tmx",
         "Map2.tmx",
         "Map1 - Copy.tmx",
         "Platforms.tsx",

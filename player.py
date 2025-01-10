@@ -17,6 +17,8 @@ class Player(pygame.sprite.Sprite):
         self.jump_height = movement_settings["Player jump height"][0]
         self.gravity = movement_settings["Player gravity"][0]
         self.is_jumping = False
+        self.moving_left = False
+        self.moving_right = False
 
         # Collision
         self.border_sprites = collision_sprites["borders"]
@@ -36,7 +38,7 @@ class Player(pygame.sprite.Sprite):
         }
 
         # Others
-        self.phasing_timer = Timer(300)
+        self.phasing_timer = Timer(100)
 
         self.name = name
         self.keybinds = keybinds
@@ -61,7 +63,6 @@ class Player(pygame.sprite.Sprite):
 
     def input(self):
         keys = pygame.key.get_pressed()
-        input_vector = vector(0, 0)
 
         if len(self.keybinds) == 4:
             down_key = keys[self.keybinds[3]]
@@ -71,23 +72,31 @@ class Player(pygame.sprite.Sprite):
             self.phasing_timer.start()
         else:
             if keys[self.keybinds[0]]: # Left
-                input_vector.x -= 1
+                self.moving_left = True
+            elif keys[self.keybinds[2]]: # Right
+                self.moving_right = True
             if keys[self.keybinds[1]]: # Jump
                 self.is_jumping = True
-            if keys[self.keybinds[2]]: # Right
-                input_vector.x += 1
-
-        self.direction.x = input_vector.normalize().x if input_vector else 0
-
+        
     def move(self, dt):
         if self.is_jumping:
             if self.touching_sides["bottom"]:
                 self.direction.y = -self.jump_height
+                self.collision_sprites = self.normal_collision_sprites
+                self.collision_rects = self.normal_collision_rects
                 self.counters["Jumps"] += 1
             elif any((self.touching_sides["left"], self.touching_sides["right"])):
                 self.direction.y = -self.jump_height * 0.8
                 self.counters["Jumps"] += 0.5
             self.is_jumping = False
+
+        self.direction.x = 0
+        if self.moving_left:
+            self.direction.x -= 1
+            self.moving_left = False
+        elif self.moving_right:
+            self.direction.x += 1
+            self.moving_right = False
 
         # Horizontal
         self.rect.x += self.direction.x * self.speed * dt
@@ -139,7 +148,7 @@ class Player(pygame.sprite.Sprite):
                     self.direction.y = 0
 
     def update_collision(self):
-        if not self.phasing_timer.active and not self.direction.y <= 0 and self.touching_sides["semi"]:
+        if not self.phasing_timer.active and not self.direction.y < 0 and self.touching_sides["semi"] and not self.is_jumping:
             self.collision_sprites = self.all_collision_sprites
             self.collision_rects = self.all_collision_rects
         else:

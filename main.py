@@ -10,8 +10,9 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.tmx_maps = {
-            1: load_pygame(convert_filename(["Maps", "Map1.tmx"])),
-            2: load_pygame(convert_filename(["Maps", "Map2.tmx"]))
+            "A1": load_pygame(convert_filename(["Maps", "MapA1.tmx"])),
+            "T1": load_pygame(convert_filename(["Maps", "MapT1.tmx"])),
+            "T2": load_pygame(convert_filename(["Maps", "MapT2.tmx"])),
         }
 
         self.game_state = "menu"
@@ -80,7 +81,7 @@ class Game:
                     menu_button_sprites = self.menu_buttons.sprites()
                     if menu_button_sprites[0].is_clicked(): # Start
                         self.game_state = "game"
-                        self.game_level = Level(self.tmx_maps[2])
+                        self.game_level = Level(self.tmx_maps["A1"])
                     if menu_button_sprites[1].is_clicked(): # Settings
                         self.game_state = "settings"
                     if menu_button_sprites[2].is_clicked(): # Instructions
