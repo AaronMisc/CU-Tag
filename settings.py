@@ -76,8 +76,8 @@ text_settings = {
     "Label player names": [True, "Label the player names above players. Toggle with F2."],
     "Label player keybinds": [True, "Label the keybinds above players. Toggle with F4."],
     "Label player tag times": [True, "Label the player names above the player. Toggle with F5."],
-    "Show player tag times": [True, "Show the player tag times in the top left. Toggle with F1."],
-    "Show stats": [False, "Show player stats on the top. Toggle with F1."]
+    "Show player list": [True, "Show the player tag times in the top left. Toggle with F1."],
+    "Show player stats": [False, "Show player stats on the top. Toggle with F1."]
 }
 movement_settings = {
     "Player speed": [200, "How fast the non-tagged player(s) move (left and right)."],
@@ -94,9 +94,15 @@ game_settings = {
     "Player amount": [2, "How many players are in the game."],
     "Keybind type": ["Normal", "What set of keybinds to use. Normal is confortable, up to 4 players. Compact is tight, up to 8 players. Max is black-hole enducing, with each player getting 3 keys, pressing all keys makes them go down, (suggested) for multiple keyboards."],
     "Game mode": ["Endless", "Endless will never end. Countdown ends after the tag time of a player reaches 0. Tags ends after a player gets tagged to much. Claim is when all players get tagged, you can't get un-tagged. Multi allows multiple players to get tagged and is endless."],
-    "Tag time": [60000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode."],
+    "Tag time": [120000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode."],
     "Tag cooldown": [3000, "How long the tagged player(s) can't tag for after just being tagged. In milliseconds."],
     "Map": [1, "Which map to use. It is recommended to use the map selector."]
+}
+advanced_settings = {
+    "Semi collision rect height": [8, "The height of the semi collision rect. The higher this is, the further semis will be detected. This makes it less buggy but also causes unexpected falling."],
+    "Wall slide rect width": [2, "The width of the wall slide rect. The higher this is, the further you can be away from the wall to wall slide."],
+    "Jump rect height": [2, "The height of the jump rect. How many pixels you have to be away from the ground to jump."],
+    "Wall slide speed modifier": [0.8, "The multiplication of gravity when wall sliding. 1 means the same as gravity."],
 }
 
 tag_cooldown_end = 0

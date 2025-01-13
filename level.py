@@ -46,7 +46,6 @@ class Level:
                 player.tag()
 
     def draw_player_tag_times(self):
-        global show_player_tag_times
         display_text_tag_times = ""
 
         for player in self.player_sprites_list:
@@ -59,4 +58,4 @@ class Level:
 
         self.player_sprites.update(dt)
         self.all_sprites.draw(self.display_surface)
-        if text_settings["Show player tag times"][0]: self.draw_player_tag_times()
+        if text_settings["Show player list"][0]: self.draw_player_tag_times()

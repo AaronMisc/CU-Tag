@@ -57,6 +57,8 @@ class Game:
                     if event.key == pygame.K_F7:
                         print(pygame.mouse.get_pos())
 
+                    if event.key == pygame.K_F1:
+                        text_settings["Show player list"][0] = not text_settings["Show player list"][0]
                     if event.key == pygame.K_F2:
                         text_settings["Label player names"][0] = not text_settings["Label player names"][0]
                     if event.key == pygame.K_F3:
