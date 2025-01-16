@@ -51,7 +51,7 @@ class Game:
         self.settings_buttons = {}
         for setting_group_name, settings_group_dict in settings.items():
             sprite_group = pygame.sprite.Group(
-                    Button(x=10, y=145+i*70, w=500, h=60, heading_text=setting[0], body_text=f"{setting[1][0]}. {setting[1][1]}") for i, setting in enumerate(settings_group_dict.items())
+                    Button(x=10, y=145+i*70, w=500, h=60, heading_text=setting[0], body_text=f"{setting[1][0]}. {setting[1][1] if len(setting[1][1]) < 44 else f"{setting[1][1][:42]}..."}") for i, setting in enumerate(settings_group_dict.items())
                 )
             self.settings_buttons.update({setting_group_name: sprite_group})
     
