@@ -14,12 +14,12 @@ def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"],
         text_rect = text_surface.get_rect(topleft=pos)
         surface.blit(text_surface, text_rect)
         pos[1] += text_surface.get_height() + line_spacing
-
+    
 class Button(pygame.sprite.Sprite):
     def __init__(self, x=10, y=120, w=200, h=75, 
                  text_padding=10,
                  heading_text="Button", heading_text_colour=colours["black"], heading_text_font=fonts["consolas bold small"], 
-                 body_text="Body text", body_text_offset=30, body_text_colour=colours["black"], body_text_font=fonts["consolas small"], 
+                 body_text="Body text", body_text_offset=25, body_text_colour=colours["black"], body_text_font=fonts["consolas small"], 
                  button_colour=colours["blue2"], border_colour=colours["blue3"], hover_colour=colours["green3"], border_hover_colour=colours["green4"], border_width=3,
                  resize=True):
         super().__init__()
@@ -42,7 +42,6 @@ class Button(pygame.sprite.Sprite):
         self.border_hover_colour = border_hover_colour
         self.border_width = border_width
         self.resize = resize
-        self.display_surface = pygame.display.get_surface()
     
     def update(self):
         """Update the button."""

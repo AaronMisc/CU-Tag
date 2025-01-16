@@ -13,9 +13,9 @@ class Player(pygame.sprite.Sprite):
 
         # Movement
         self.direction = vector()
-        self.speed = movement_settings["Player speed"][0]
-        self.jump_height = movement_settings["Player jump height"][0]
-        self.gravity = movement_settings["Player gravity"][0]
+        self.speed = settings["Movement"]["Player speed"][0]
+        self.jump_height = settings["Movement"]["Player jump height"][0]
+        self.gravity = settings["Movement"]["Player gravity"][0]
         self.is_jumping = False
         self.moving_left = False
         self.moving_right = False
@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.normal_collision_sprites = collision_sprites["normal"]
         self.normal_collision_rects = self.get_collision_rects(self.normal_collision_sprites)
         self.semi_collidable_sprites = collision_sprites["semi"]
-        self.semi_collision_rects = [pygame.Rect((sprite.rect.x, sprite.rect.y), (sprite.rect.width, advanced_settings["Semi collision rect height"][0])) for sprite in self.semi_collidable_sprites]
+        self.semi_collision_rects = [pygame.Rect((sprite.rect.x, sprite.rect.y), (sprite.rect.width, settings["Advanced"]["Semi collision rect height"][0])) for sprite in self.semi_collidable_sprites]
         self.all_collision_sprites = pygame.sprite.Group(self.normal_collision_sprites.sprites() + self.semi_collidable_sprites.sprites())
         self.all_collision_rects = self.normal_collision_rects + self.semi_collision_rects
         self.player_sprites = None
@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.name = name
         self.keybinds = keybinds
         self.tagged = False
-        self.tag_time = game_settings["Tag time"][0]
+        self.tag_time = settings["Game"]["Tag time"][0]
 
         self.counters = {
             "Tags": 0,
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
                 self.collision_rects = self.normal_collision_rects
                 self.counters["Jumps"] += 1
             elif any((self.touching_sides["left"], self.touching_sides["right"])):
-                self.direction.y = -self.jump_height * advanced_settings["Wall slide speed modifier"][0]
+                self.direction.y = -self.jump_height * settings["Advanced"]["Wall slide speed modifier"][0]
                 self.counters["Jumps"] += 0.5
             self.is_jumping = False
 
@@ -112,10 +112,10 @@ class Player(pygame.sprite.Sprite):
         self.collision("y")
     
     def update_touching_sides(self):
-        bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, advanced_settings["Jump rect height"][0]))
-        semi_bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, advanced_settings["Semi collision rect height"][0]))
-        left_rect = pygame.Rect(self.rect.topleft + vector(-advanced_settings["Wall slide rect width"][0], self.rect.height/4), (advanced_settings["Wall slide rect width"][0], self.rect.height / 2))
-        right_rect = pygame.Rect((self.rect.topright + vector(0, self.rect.height/4), (advanced_settings["Wall slide rect width"][0], self.rect.height / 2)))
+        bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, settings["Advanced"]["Jump rect height"][0]))
+        semi_bottom_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, settings["Advanced"]["Semi collision rect height"][0]))
+        left_rect = pygame.Rect(self.rect.topleft + vector(-settings["Advanced"]["Wall slide rect width"][0], self.rect.height/4), (settings["Advanced"]["Wall slide rect width"][0], self.rect.height / 2))
+        right_rect = pygame.Rect((self.rect.topright + vector(0, self.rect.height/4), (settings["Advanced"]["Wall slide rect width"][0], self.rect.height / 2)))
 
         # Collisions
         self.touching_sides["bottom"] = True if bottom_rect.collidelist(self.collision_rects) >= 0 else False
@@ -179,29 +179,29 @@ class Player(pygame.sprite.Sprite):
         sprite.counters["Tagged"] += 1
 
         self.tagged = False
-        self.speed =  movement_settings["Player speed"][0]
-        self.jump_height =  movement_settings["Player jump height"][0]
-        self.gravity =  movement_settings["Player gravity"][0]
+        self.speed =  settings["Movement"]["Player speed"][0]
+        self.jump_height =  settings["Movement"]["Player jump height"][0]
+        self.gravity =  settings["Movement"]["Player gravity"][0]
     
     def tag(self):     
         self.tagged = True
-        self.tag_cooldown_end = self.current_time + game_settings["Tag cooldown"][0]
+        self.tag_cooldown_end = self.current_time + settings["Game"]["Tag cooldown"][0]
 
-        self.speed =  movement_settings["Tagged player speed"][0]
-        self.jump_height =  movement_settings["Tagged player jump height"][0]
-        self.gravity =  movement_settings["Tagged player gravity"][0]
+        self.speed =  settings["Movement"]["Tagged player speed"][0]
+        self.jump_height =  settings["Movement"]["Tagged player jump height"][0]
+        self.gravity =  settings["Movement"]["Tagged player gravity"][0]
 
     def display_text(self):
-        global text_settings
+        global settings
         x_pos = self.rect.x + self.rect.width // 2
         y_offset = 0
-        if text_settings["Label player tag times"][0]:
+        if settings["Text"]["Label player tag times"][0]:
             y_offset += 16
             draw_text((x_pos, self.rect.y - y_offset), str(int(self.tag_time)), colours["firebrick1"], fonts["consolas small"], centred=True, surface=front_surface)
-        if text_settings["Label player keybinds"][0]:
+        if settings["Text"]["Label player keybinds"][0]:
             y_offset += 16
             draw_text((x_pos, self.rect.y - y_offset), keys_to_names(self.keybinds), colours["skyblue1"], fonts["consolas small"], centred=True, surface=front_surface)
-        if text_settings["Label player names"][0]:
+        if settings["Text"]["Label player names"][0]:
             y_offset += 24
             draw_text((x_pos, self.rect.y - y_offset), self.name, colours["white"], fonts["consolas bold small"], centred=True, surface=front_surface)
         if self.tagged:

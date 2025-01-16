@@ -72,37 +72,38 @@ keybinds = {
     }
 }
 
-text_settings = {
-    "Label player names": [True, "Label the player names above players. Toggle with F2."],
-    "Label player keybinds": [True, "Label the keybinds above players. Toggle with F4."],
-    "Label player tag times": [True, "Label the player names above the player. Toggle with F5."],
-    "Show player list": [True, "Show the player tag times in the top left. Toggle with F1."],
-    "Show player stats": [False, "Show player stats on the top. Toggle with F1."]
-}
-movement_settings = {
-    "Player speed": [200, "How fast the non-tagged player(s) move (left and right)."],
-    "Tagged player speed": [300, "How fast the tagged player(s) move (left and right)."],
-    "Player jump height": [600, "How high the players jump. Not linear."],
-    "Tagged player jump height": [600, "How high the tagged player(s) jumps."],
-    "Player gravity": [1200, "Gravity amount affecting the players."],
-    "Tagged player gravity": [1200, "Gravity amount affect the tagged player(s)"],
-    "Wall sliding allowed": [True, "Make the players fall slower when touching a wall."],
-    "Wall jumping": [True, "Allows the players to jump when touching a wall."],
-    "Wall detection lenience": [2, "How close you have to be to the ball for wall sliding and jumping."]
-}
-game_settings = {
-    "Player amount": [2, "How many players are in the game."],
-    "Keybind type": ["Normal", "What set of keybinds to use. Normal is confortable, up to 4 players. Compact is tight, up to 8 players. Max is black-hole enducing, with each player getting 3 keys, pressing all keys makes them go down, (suggested) for multiple keyboards."],
-    "Game mode": ["Endless", "Endless will never end. Countdown ends after the tag time of a player reaches 0. Tags ends after a player gets tagged to much. Claim is when all players get tagged, you can't get un-tagged. Multi allows multiple players to get tagged and is endless."],
-    "Tag time": [120000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode."],
-    "Tag cooldown": [3000, "How long the tagged player(s) can't tag for after just being tagged. In milliseconds."],
-    "Map": [1, "Which map to use. It is recommended to use the map selector."]
-}
-advanced_settings = {
-    "Semi collision rect height": [8, "The height of the semi collision rect. The higher this is, the further semis will be detected. This makes it less buggy but also causes unexpected falling."],
-    "Wall slide rect width": [2, "The width of the wall slide rect. The higher this is, the further you can be away from the wall to wall slide."],
-    "Jump rect height": [2, "The height of the jump rect. How many pixels you have to be away from the ground to jump."],
-    "Wall slide speed modifier": [0.8, "The multiplication of gravity when wall sliding. 1 means the same as gravity."],
+settings = {
+    "Text": {
+        "Label player names": [True, "Label the player names above players. Toggle with F2.", bool],
+        "Label player keybinds": [True, "Label the keybinds above players. Toggle with F4.", bool],
+        "Label player tag times": [True, "Label the player names above the player. Toggle with F5.", bool],
+        "Show player list": [True, "Show the player tag times in the top left. Toggle with F1.", bool],
+        "Show player stats": [False, "Show player stats on the top. Toggle with F1.", bool]
+    },
+    "Movement": {
+        "Player speed": [200, "How fast the non-tagged player(s) move (left and right).", int],
+        "Tagged player speed": [300, "How fast the tagged player(s) move (left and right).", int],
+        "Player jump height": [600, "How high the players jump. Not linear.", int],
+        "Tagged player jump height": [600, "How high the tagged player(s) jumps.", int],
+        "Player gravity": [1200, "Gravity amount affecting the players.", int],
+        "Tagged player gravity": [1200, "Gravity amount affect the tagged player(s)", int],
+        "Wall sliding allowed": [True, "Make the players fall slower when touching a wall.", bool],
+        "Wall jumping": [True, "Allows the players to jump when touching a wall.", bool],
+    },
+    "Game": {
+        "Player amount": [2, "How many players are in the game.", int],
+        "Keybind type": ["Normal", "What set of keybinds to use. Normal is confortable, up to 4 players. Compact is tight, up to 8 players. Max is black-hole enducing, with each player getting 3 keys, pressing all keys makes them go down, (suggested) for multiple keyboards.", str],
+        "Game mode": ["Endless", "Endless will never end. Countdown ends after the tag time of a player reaches 0. Tags ends after a player gets tagged to much. Claim is when all players get tagged, you can't get un-tagged. Multi allows multiple players to get tagged and is endless.", str],
+        "Tag time": [120000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode.", int],
+        "Tag cooldown": [3000, "How long the tagged player(s) can't tag for after just being tagged. In milliseconds.", int],
+        "Map": ["A1", "Which map to use. It is recommended to use the map selector.", str]
+    },
+    "Advanced": {
+        "Semi collision rect height": [8, "The height of the semi collision rect. The higher this is, the further semis will be detected. This makes it less buggy but also causes unexpected falling.", int],
+        "Wall slide rect width": [2, "The width of the wall slide rect. The higher this is, the further you can be away from the wall to wall slide.", int],
+        "Jump rect height": [2, "The height of the jump rect. How many pixels you have to be away from the ground to jump.", int],
+        "Wall slide speed modifier": [0.8, "The multiplication of gravity when wall sliding. 1 means the same as gravity.", float],
+    }
 }
 
 tag_cooldown_end = 0
