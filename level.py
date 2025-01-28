@@ -34,7 +34,8 @@ class Level:
         
         # Player setup
         for obj in tmx_map.get_layer_by_name("Objects"): 
-            Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds["max"][obj.name], obj.image, obj.name)
+            if obj.name == "Player1" or obj.name == "Player16":
+                Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds["max"][obj.name], obj.image, obj.name)
         
         self.player_sprites_list = self.player_sprites.sprites()
         for player in self.player_sprites_list: # Updating player sprites

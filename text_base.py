@@ -14,7 +14,8 @@ def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"],
         text_rect = text_surface.get_rect(topleft=pos)
         surface.blit(text_surface, text_rect)
         pos[1] += text_surface.get_height() + line_spacing
-    
+         
+    return (text_surface.get_width(), text_surface.get_height())    
 class Button(pygame.sprite.Sprite):
     def __init__(self, x=10, y=120, w=200, h=75, 
                  text_padding=10,

@@ -26,8 +26,10 @@ colours = pygame.colordict.THECOLORS
 pygame.font.init()
 fonts = {
     "consolas": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 32),
+    "consolas medium": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 24),
     "consolas small": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 16),
     "consolas bold": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 48),
+    "consolas bold medium": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]),36),
     "consolas bold small": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 24),
     "consolas title": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 128)
 }
@@ -96,7 +98,7 @@ settings = {
         "Game mode": ["Endless", "Endless will never end. Countdown ends after the tag time of a player reaches 0. Tags ends after a player gets tagged to much. Claim is when all players get tagged, you can't get un-tagged. Multi allows multiple players to get tagged and is endless.", str],
         "Tag time": [120000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode.", int],
         "Tag cooldown": [3000, "How long the tagged player(s) can't tag for after just being tagged. In milliseconds.", int],
-        "Map": ["A1", "Which map to use. It is recommended to use the map selector.", str]
+        "Map": ["T2", "Which map to use. It is recommended to use the map selector.", str]
     },
     "Advanced": {
         "Semi collision rect height": [8, "The height of the semi collision rect. The higher this is, the further semis will be detected. This makes it less buggy but also causes unexpected falling.", int],

@@ -1,6 +1,7 @@
 from settings import *
 from level import *
 from pytmx.util_pygame import load_pygame
+import pygame_gui
 
 class Game:
     def __init__(self):
@@ -8,6 +9,7 @@ class Game:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption('CU-Tag')
         self.clock = pygame.time.Clock()
+        self.ui_manager = pygame_gui.UIManager((WINDOW_WIDTH, WINDOW_HEIGHT))
 
         self.tmx_maps = {
             "A1": load_pygame(convert_filename(["Maps", "MapA1.tmx"])),
@@ -54,7 +56,19 @@ class Game:
                     Button(x=10, y=145+i*70, w=500, h=60, heading_text=setting[0], body_text=f"{setting[1][0]}. {setting[1][1] if len(setting[1][1]) < 44 else f"{setting[1][1][:42]}..."}") for i, setting in enumerate(settings_group_dict.items())
                 )
             self.settings_buttons.update({setting_group_name: sprite_group})
-    
+        self.bool_selection_buttons = pygame.sprite.Group(
+            Button(x=520, y=550, w=200, h=75, heading_text="True", body_text="Change to true"),
+            Button(x=730, y=550, w=200, h=75, heading_text="False", body_text="Change to false")
+        )
+        self.str_selection_buttons = pygame.sprite.Group(
+            Button(x=520, y=550, w=200, h=75, heading_text="Next", body_text="Next option"),
+            Button(x=730, y=550, w=200, h=75, heading_text="Previous", body_text="Previous option")
+        )
+        self.number_selection_buttons = pygame.sprite.Group()
+        self.settings_number_text_entry = pygame_gui.elements.UITextEntryLine(pygame.rect.Rect((520, 550), (500, 75)), manager=self.ui_manager, object_id="#number_entry_line", placeholder_text="Enter a number...", visible=False)
+        self.settings_number_text_entry.add(self.number_selection_buttons)
+        self.settings_number_text_entry.allowed_characters = "0123456789"
+        
     def run(self):
         global button_cooldown_end, front_surface, settings
 
@@ -89,11 +103,13 @@ class Game:
                         settings["Text"]["Label player keybinds"][0] = not settings["Text"]["Label player keybinds"][0]
                     if event.key == pygame.K_F5:
                         settings["Text"]["Label player tag times"][0] = not settings["Text"]["Label player tag times"][0]
-                    if event.key == pygame.K_F6:
+                    if event.key == pygame.K_F6 and False:
                         settings["Text"]["Show player tag times"][0] = not settings["Text"]["Show player tag times"][0]
 
                     if event.key == pygame.K_ESCAPE:
                         self.return_page()
+                
+                self.ui_manager.process_events(event)
 
             self.display_surface.fill(self.background_colour)
             
@@ -108,6 +124,7 @@ class Game:
                         self.game_level = Level(self.tmx_maps[settings["Game"]["Map"][0]])
                         self.game_state = "game"
                     if menu_button_sprites[1].is_clicked(): # Settings
+                        self.settings_number_text_entry.visible = True
                         self.game_state = "settings"
                     if menu_button_sprites[2].is_clicked(): # Instructions
                         self.game_state = "instructions"
@@ -132,6 +149,9 @@ class Game:
                 # Draw buttons on the left based on the settings page, for selecting the settings options
                 self.settings_buttons[self.settings_page].update()
                 self.settings_buttons[self.settings_page].draw(self.display_surface)
+
+                print(draw_text((520, 155), self.settings_page, font=fonts["consolas bold medium"], surface=self.display_surface))
+                draw_text((520, 189), self.settings_option, font=fonts["consolas medium"], surface=self.display_surface)
 
                 # Return button
                 self.return_button.update()
@@ -165,6 +185,8 @@ class Game:
             elif self.game_state == "credits":
                 pass
 
+            self.ui_manager.update(dt)
+            
             # Return button check
             if self.return_button.sprite.is_clicked():
                 self.return_page()
@@ -173,7 +195,8 @@ class Game:
                 draw_text((60, 60), f"FPS: {int(self.clock.get_fps())}", surface=self.display_surface)
 
             self.display_surface.blit(front_surface, (0, 0))
-           
+
+            self.ui_manager.draw_ui(self.display_surface)
             pygame.display.update()
 
             front_surface.fill((0, 0, 0, 0))
@@ -185,6 +208,7 @@ class Game:
     def return_page(self):
         if self.game_state != "menu" and self.game_state != "game":
             self.game_state = "menu"
+        self.settings_number_text_entry.visible = False
 
 def main():
     game = Game()
