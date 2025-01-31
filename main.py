@@ -1,7 +1,5 @@
 from settings import *
 from level import *
-from pytmx.util_pygame import load_pygame
-import pygame_gui
 
 class Game:
     def __init__(self):
@@ -12,9 +10,7 @@ class Game:
         self.ui_manager = pygame_gui.UIManager((WINDOW_WIDTH, WINDOW_HEIGHT))
 
         self.tmx_maps = {
-            "A1": load_pygame(convert_filename(["Maps", "MapA1.tmx"])),
-            "T1": load_pygame(convert_filename(["Maps", "MapT1.tmx"])),
-            "T2": load_pygame(convert_filename(["Maps", "MapT2.tmx"])),
+            name: load_pygame(convert_filename(["Maps", f"Map{name}.tmx"])) for name in map_names
         }
 
         self.game_state = "menu"
@@ -57,18 +53,24 @@ class Game:
                 )
             self.settings_buttons.update({setting_group_name: sprite_group})
         self.bool_selection_buttons = pygame.sprite.Group(
-            Button(x=520, y=550, w=200, h=75, heading_text="True", body_text="Change to true"),
-            Button(x=730, y=550, w=200, h=75, heading_text="False", body_text="Change to false")
+            Button(x=520, y=550, w=500, h=75, heading_text="True", body_text=""),
+            Button(x=520, y=635, w=500, h=75, heading_text="False", body_text="")
         )
         self.str_selection_buttons = pygame.sprite.Group(
-            Button(x=520, y=550, w=200, h=75, heading_text="Next", body_text="Next option"),
-            Button(x=730, y=550, w=200, h=75, heading_text="Previous", body_text="Previous option")
+            Button(x=520, y=550, w=500, h=75, heading_text="Next", body_text=""),
+            Button(x=520, y=635, w=500, h=75, heading_text="Previous", body_text="")
         )
-        self.number_selection_buttons = pygame.sprite.Group()
-        self.settings_number_text_entry = pygame_gui.elements.UITextEntryLine(pygame.rect.Rect((520, 550), (500, 75)), manager=self.ui_manager, object_id="#number_entry_line", placeholder_text="Enter a number...", visible=False)
-        self.settings_number_text_entry.add(self.number_selection_buttons)
+        self.number_selection_submit_button = Button(x=520, y=550, w=500, h=75, heading_text="Submit", body_text="")
+        self.number_selection_buttons = pygame.sprite.Group(self.number_selection_submit_button)
+        self.settings_number_text_entry = pygame_gui.elements.UITextEntryLine(pygame.rect.Rect((520, 465), (500, 75)), manager=self.ui_manager, object_id="#number_entry_line", visible=False)
         self.settings_number_text_entry.allowed_characters = "0123456789"
-        
+        self.settings_number_text_entry.length_limit = 10
+
+    def update_str_selection_indexes(self):
+        self.str_selection_current_index = self.settings_option_details[3].index(self.settings_option_details[0])
+        self.str_selection_next_option = self.settings_option_details[(self.str_selection_current_index+1) % len(self.settings_option_details[3])]
+        self.str_selection_previous_option = self.settings_option_details[(self.str_selection_current_index-1) % len(self.settings_option_details[3])]        
+
     def run(self):
         global button_cooldown_end, front_surface, settings
 
@@ -124,7 +126,6 @@ class Game:
                         self.game_level = Level(self.tmx_maps[settings["Game"]["Map"][0]])
                         self.game_state = "game"
                     if menu_button_sprites[1].is_clicked(): # Settings
-                        self.settings_number_text_entry.visible = True
                         self.game_state = "settings"
                     if menu_button_sprites[2].is_clicked(): # Instructions
                         self.game_state = "instructions"
@@ -150,7 +151,7 @@ class Game:
                 self.settings_buttons[self.settings_page].update()
                 self.settings_buttons[self.settings_page].draw(self.display_surface)
 
-                print(draw_text((520, 155), self.settings_page, font=fonts["consolas bold medium"], surface=self.display_surface))
+                draw_text((520, 155), self.settings_page, font=fonts["consolas bold medium"], surface=self.display_surface)
                 draw_text((520, 189), self.settings_option, font=fonts["consolas medium"], surface=self.display_surface)
 
                 # Return button
@@ -170,15 +171,50 @@ class Game:
                             else: # If the button is a option selection button
                                 self.settings_option = button.heading_text # Change option
                                 self.settings_option_details = settings[self.settings_page][self.settings_option] # Get the option details using settings
+
+                                if self.settings_option_details[2] == int or self.settings_option_details[2] == float:
+                                    self.settings_number_text_entry.visible = True
+                                    self.settings_number_text_entry.set_text(str(self.settings_option_details[0]))
+                                else:
+                                    self.settings_number_text_entry.visible = False
+
+                                if self.settings_option_details[2] == str:
+                                    self.update_str_selection_indexes()
                 
                 # Draw the option changing
                 if self.settings_option_details[2] == bool: # Type of the option
-                    pass
-                elif self.settings_option_details[2] == int or self.settings_option_details[2] == float:
-                    pass
-                elif self.settings_option_details[2] == str:
-                    pass
+                    self.bool_selection_buttons.update()
+                    self.bool_selection_buttons.sprites()[0].body_text = f"Change {self.settings_option} from {self.settings_option_details[0]} to True"
+                    self.bool_selection_buttons.sprites()[1].body_text = f"Change {self.settings_option} from {self.settings_option_details[0]} to False"
+                    self.bool_selection_buttons.draw(self.display_surface)
 
+                    if self.mouse_click:
+                        if self.bool_selection_buttons.sprites()[0].is_clicked():
+                            settings[self.settings_page][self.settings_option][0] = True
+                        elif self.bool_selection_buttons.sprites()[1].is_clicked():
+                            settings[self.settings_page][self.settings_option][0] = False
+                
+                elif self.settings_option_details[2] == int or self.settings_option_details[2] == float:
+                    self.number_selection_buttons.update()
+                    self.number_selection_buttons.sprites()[0].body_text = f"Change {self.settings_option} from {self.settings_option_details[0]} to {self.settings_number_text_entry.text}"
+                    self.number_selection_buttons.draw(self.display_surface)
+
+                    if self.mouse_click:
+                        if self.number_selection_submit_button.is_clicked():
+                            settings[self.settings_page][self.settings_option][0] = self.settings_option_details[2](self.settings_number_text_entry.text) # Set it and convert it to the correct type (int or float)
+                
+                elif self.settings_option_details[2] == str:
+                    self.str_selection_buttons.update()
+                    self.str_selection_buttons.sprites()[0].body_text = f"Change {self.settings_option} from {self.settings_option_details[0]} to {self.settings_number_text_entry.text}"
+                    self.str_selection_buttons.sprites()[1].body_text = f"Change {self.settings_option} from {self.settings_option_details[0]} to {self.settings_number_text_entry.text}"
+                    self.str_selection_buttons.draw(self.display_surface)
+
+                    if self.mouse_click:
+                        if self.str_selection_buttons.sprites()[0].is_clicked():
+                            settings[self.settings_page][self.settings_option][0] = self.str_selection_next_option
+                        elif self.str_selection_buttons.sprites()[1].is_clicked():
+                            settings[self.settings_page][self.settings_option][0] = self.str_selection_previous_option
+            
             elif self.game_state == "instructions":
                 pass
 
