@@ -25,6 +25,7 @@ WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
 front_surface = pygame.surface.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA) # Surface at the front
 
 colours = pygame.colordict.THECOLORS
+button_cooldown_end = 0
 pygame.font.init()
 fonts = {
     "consolas": pygame.font.Font(convert_filename(["Fonts", "Consolas.ttf"]), 32),
@@ -35,9 +36,6 @@ fonts = {
     "consolas bold small": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 24),
     "consolas title": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 128)
 }
-
-button_cooldown_end = 0
-button_cooldown = 500
 
 map_names = ["A1", "T1", "T2"]
 

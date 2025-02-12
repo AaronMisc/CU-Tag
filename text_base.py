@@ -2,7 +2,10 @@ from settings import *
 
 pygame.init()
 
-def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"], line_spacing=5, centred=False, surface=pygame.display.get_surface()):
+def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"], line_spacing=5, wrap_text=False, centred=False, surface=pygame.display.get_surface(), return_size=False):
+    if wrap_text:
+        text = text.replace(". ", ".\n")
+    
     if not isinstance(pos, list):
         pos = list(pos)
     if centred:
@@ -15,7 +18,9 @@ def draw_text(pos, text="Text", colour=colours["white"], font=fonts["consolas"],
         surface.blit(text_surface, text_rect)
         pos[1] += text_surface.get_height() + line_spacing
          
-    return (text_surface.get_width(), text_surface.get_height())    
+    if return_size:
+        return (text_surface.get_width(), ((text_surface.get_height() + line_spacing) * len(lines)))    
+    
 class Button(pygame.sprite.Sprite):
     def __init__(self, x=10, y=120, w=200, h=75, 
                  text_padding=10,
@@ -62,13 +67,7 @@ class Button(pygame.sprite.Sprite):
         draw_text((self.text_padding, self.body_text_offset + self.text_padding), self.body_text, self.body_text_colour, self.body_text_font, surface=self.image)
 
     def is_clicked(self):
-        global button_cooldown_end, button_cooldown
-
         """Check if the button is clicked."""
-        current_time = pygame.time.get_ticks()  # Get current time in milliseconds
         if self.is_hovered and pygame.mouse.get_pressed()[0]:  # Left mouse button is pressed
-            # Check if enough time has passed since the last click
-            if current_time > button_cooldown_end:
-                button_cooldown_end = current_time + button_cooldown
-                return True
+            return True
         return False
