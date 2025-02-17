@@ -22,6 +22,7 @@ class Game:
         self.show_fps = False
         self.display_fullscreen = False
         self.tag_cooldown_end = 0
+        self.delete_counter = 0
 
         self.create_buttons()
 
@@ -110,6 +111,10 @@ class Game:
 
                     if event.key == pygame.K_ESCAPE:
                         self.return_page()
+                    elif event.key == pygame.K_DELETE and self.game_state == "game":
+                        self.delete_counter += 1
+                        if self.delete_counter == 5:
+                            self.game_state = "menu"
                 
                 self.ui_manager.process_events(event)
 
@@ -127,6 +132,7 @@ class Game:
                     menu_button_sprites = self.menu_buttons.sprites()
                     if menu_button_sprites[0].is_clicked(): # Start
                         self.game_level = Level(self.tmx_maps[settings["Game"]["Map"][0]])
+                        self.delete_counter = 0
                         self.game_state = "game"
                     if menu_button_sprites[1].is_clicked(): # Settings
                         self.game_state = "settings"
