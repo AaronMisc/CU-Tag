@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "MapT2.tmx",
+    "activeFile": "MapT1.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -78,7 +78,7 @@
         },
         "MapT1.tmx": {
             "scale": 0.5254687499999999,
-            "selectedLayer": 1,
+            "selectedLayer": 3,
             "viewCenter": {
                 "x": 639.4290811775201,
                 "y": 368.24264049955406
@@ -116,8 +116,8 @@
     "project": "Map1.tiled-project",
     "recentFiles": [
         "MapA1.tmx",
-        "MapT1.tmx",
         "MapT2.tmx",
+        "MapT1.tmx",
         "Borders.tsx",
         "Players.tsx",
         "Map1.tmx",

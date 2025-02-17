@@ -37,9 +37,14 @@ fonts = {
     "consolas title": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 128)
 }
 
-map_names = ["A1", "T1", "T2"]
+map_details = { # map_details[name][detail], detail 0 is nickname, 1 is description, 2 is tile size
+    "A1": ["Simple map", "A simple map with straight platforms.\nGood layout for gameplay.\nHas normal and semi platforms.", 32],
+    "T1": ["Playground", "An interesting map with many pots for players to go in.\nHas normal and semi platforms.\nHas stairs that have an interesting glitch.\nFuller layout.", 32],
+    "T2": ["Dots", "Many small platforms.\nHas normal, semi and limit platforms.\nAn interesting map design but players can get stuck.\nGameplay is fun but a bit questionable.", 32]
+}
+map_names = [name for name in map_details.keys()]
 
-keybinds = {
+keybinds = { # keybinds[collection][playerid][keyid], for normal and compact: keyid 0 is up, 1 is left, 2 is right, 3 is down; for max: keyid 0 is left, keyid 1 is up, keyid 2 is right
     "normal": {
         "Player1": [pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_s],
         "Player2": [pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_DOWN],
@@ -76,7 +81,7 @@ keybinds = {
     }
 }
 
-settings = {
+settings = { # settings[page][option][index], index 0 is value, 1 is description, 2 is type, 3 (for int and float) is min and max, 3 (for str) is possible option list, 4 is bool for wether it is a hard limit
     "Text": {
         "Label player names": [True, "Label the player names above players. Toggle with F2.", bool],
         "Label player keybinds": [True, "Label the keybinds above players. Toggle with F4.", bool],
@@ -90,7 +95,7 @@ settings = {
         "Player jump height": [600, "How high the players jump. Not linear.", int, [20, 2000], False],
         "Tagged player jump height": [600, "How high the tagged player(s) jumps.", int, [20, 2000], False],
         "Player gravity": [1200, "Gravity amount affecting the players.", int, [60, 8000], False],
-        "Tagged player gravity": [1200, "Gravity amount affecting the tagged player(s). Suggested to be the same as normal players.", int, [60, 8000]],
+        "Tagged player gravity": [1200, "Gravity amount affecting the tagged player(s). Suggested to be the same as normal players.", int, [60, 8000], False],
         "Wall sliding allowed": [True, "Make the players fall slower when touching a wall.", bool],
         "Wall jumping": [True, "Allows the players to jump when touching a wall.", bool],
     },
