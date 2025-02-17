@@ -89,8 +89,8 @@ class Player(pygame.sprite.Sprite):
                 self.collision_sprites = self.normal_collision_sprites
                 self.collision_rects = self.normal_collision_rects
                 self.counters["Jumps"] += 1
-            elif any((self.touching_sides["left"], self.touching_sides["right"])):
-                self.direction.y = -self.jump_height * settings["Advanced"]["Wall slide speed modifier"][0]
+            elif settings["Movement"]["Wall jumping"][0] and any((self.touching_sides["left"], self.touching_sides["right"])):
+                self.direction.y = -self.jump_height * settings["Advanced"]["Wall jump modifier"][0]
                 self.counters["Jumps"] += 0.5
             self.is_jumping = False
 
@@ -107,8 +107,9 @@ class Player(pygame.sprite.Sprite):
         self.collision("x")
 
         # Vertical
-        if not self.touching_sides["bottom"] and not self.touching_sides["semi"] and any((self.touching_sides["left"], self.touching_sides["right"])) and self.direction.y >= 0: # Wall sliding
-            self.rect.y += self.gravity / 10 * dt
+        if not self.touching_sides["bottom"] and not self.touching_sides["semi"] and any((self.touching_sides["left"], self.touching_sides["right"])) and self.direction.y >= 0 and settings["Movement"]["Wall sliding allowed"][0]: # Wall sliding
+            self.rect.y += self.gravity * settings["Advanced"]["Wall slide speed modifier"][0] * dt
+            self.direction.y = 0
         else: # Falling
             self.direction.y += self.gravity / 2 * dt
             self.rect.y += self.direction.y * dt

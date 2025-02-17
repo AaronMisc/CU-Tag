@@ -64,7 +64,7 @@ class Game:
         self.number_selection_buttons = pygame.sprite.Group(self.number_selection_submit_button)
         self.settings_number_text_entry = pygame_gui.elements.UITextEntryLine(pygame.rect.Rect((520, 465), (500, 75)), manager=self.ui_manager, object_id="#number_entry_line", visible=False)
         self.settings_number_text_entry.allowed_characters = "0123456789"
-        self.settings_number_text_entry.length_limit = 10
+        self.settings_number_text_entry.length_limit = 8
 
     def update_str_selection_indexes(self):
         self.str_selection_current_index = self.settings_option_details[3].index(self.settings_option_details[0])
@@ -178,6 +178,11 @@ class Game:
                             self.settings_option_details = settings[self.settings_page][self.settings_option] # Get the option details using settings
 
                             if self.settings_option_details[2] == int or self.settings_option_details[2] == float:
+                                if self.settings_option_details[2] == float:
+                                    self.settings_number_text_entry.allowed_characters = "0123456789."
+                                else:
+                                    self.settings_number_text_entry.allowed_characters = "0123456789"
+
                                 self.settings_number_text_entry.visible = True
                                 self.settings_number_text_entry.set_text(str(self.settings_option_details[0]))
                             else:
@@ -193,7 +198,11 @@ class Game:
                 settings_option_warning = ""
                 settings_option_valid = True
                 if self.settings_option_details[2] == int or self.settings_option_details[2] == float:
-                    if self.settings_number_text_entry.text == "":
+                    if self.settings_option_details[2] == float:
+                        if self.settings_number_text_entry.text.count(".") > 1:
+                            settings_option_warning = "You can only have one decimal point."
+                            settings_option_valid = False
+                    elif self.settings_number_text_entry.text == "":
                         settings_option_warning = "You must enter a number."
                         settings_option_valid = False
                     elif float(self.settings_number_text_entry.text) < self.settings_option_details[3][0] or float(self.settings_number_text_entry.text) > self.settings_option_details[3][1]:

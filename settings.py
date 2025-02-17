@@ -106,7 +106,8 @@ settings = {
         "Semi collision rect height": [8, "The height of the semi collision rect. The higher this is, the further semis will be detected. This makes it less buggy but also causes unexpected falling.", int, [1, 32], False],
         "Wall slide rect width": [2, "The width of the wall slide rect. The higher this is, the further you can be away from the wall to wall slide.", int, [0, 128], False],
         "Jump rect height": [2, "The height of the jump rect. How many pixels you have to be away from the ground to jump.", int, [1, 128], False],
-        "Wall slide speed modifier": [0.8, "The multiplication of gravity when wall sliding. 1 means the same as gravity.", float, [0, 1], True],
+        "Wall jump modifier": [0.8, "The multiplication of jump height when wall jumping. 1 means the same as jump height.", float, [0, 1], True],
+        "Wall slide speed modifier": [0.1, "The multiplication of gravity when wall sliding. 1 means the same as gravity.", float, [0, 1], True],
     }
 }
 
