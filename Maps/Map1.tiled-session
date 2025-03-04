@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "MapT1.tmx",
+    "activeFile": "MapT2.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -116,8 +116,8 @@
     "project": "Map1.tiled-project",
     "recentFiles": [
         "MapA1.tmx",
-        "MapT2.tmx",
         "MapT1.tmx",
+        "MapT2.tmx",
         "Borders.tsx",
         "Players.tsx",
         "Map1.tmx",

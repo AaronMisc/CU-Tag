@@ -8,6 +8,7 @@ class Level:
         self.offset = offset
         self.tile_size = tile_size
         self.tag_cooldown_timer = Timer(settings["Game"]["Tag cooldown"][0])
+        self.players_stats_output = None
 
         self.display_surface = pygame.display.get_surface()
 
@@ -54,9 +55,35 @@ class Level:
 
         draw_text((60, 120), display_text_tag_times, colour=colours["firebrick1"] if pygame.time.get_ticks() >= tag_cooldown_end else colours["firebrick3"], font=fonts["consolas small"], surface=self.display_surface)
 
+    def create_ending_stats(self):
+        players_stats = []
+
+        stat_names_checked = False
+        stat_names = ["Name", "Tag time"]
+        for player in self.player_sprites.sprites():
+            player_stats = [player.name, player.tag_time]
+
+            for name, value in player.counters.items():
+                if not stat_names_checked:
+                    stat_names.append(name)
+
+                player_stats.append(value)
+            stat_names_checked = True
+            
+            players_stats.append(player_stats)
+        
+        # Sort player stats by tag times
+        players_stats.sort(key=lambda player_stats: player_stats[1], reverse=True)
+        # Add player places
+        for i, player_stats in enumerate(players_stats):
+            player_stats.insert(0, i + 1)
+        
+        self.players_stats_output = tabulate(players_stats, headers=stat_names, tablefmt="grid" if settings["Game"]["Player amount"][0] < 10 else "simple")
+    
     def run(self, dt):
         global settings
 
         self.player_sprites.update(dt)
+        if settings["Hidden"]["Game ended"]: self.create_ending_stats()
         self.all_sprites.draw(self.display_surface)
         if settings["Text"]["Show player list"][0]: self.draw_player_tag_times()

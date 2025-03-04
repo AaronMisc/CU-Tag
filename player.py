@@ -221,6 +221,9 @@ class Player(pygame.sprite.Sprite):
             self.counters["Move time"] += dt * 1000
         if not any(self.touching_sides.values()):  # If the player is not touching any sides
             self.counters["Air time"] += dt * 1000
+        
+        if self.tag_time <= 0:
+            settings["Hidden"]["Game ended"] = True
 
     def update(self, dt):
         self.old_rect = self.rect.copy()

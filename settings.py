@@ -6,6 +6,7 @@ from os.path import join
 from random import choice
 from pytmx.util_pygame import load_pygame
 import pygame_gui
+from tabulate import tabulate
 
 file_pre_path = ""
 try:
@@ -100,7 +101,7 @@ settings = { # settings[page][option][index], index 0 is value, 1 is description
         "Wall jumping": [True, "Allows the players to jump when touching a wall.", bool],
     },
     "Game": {
-        "Player amount": [2, "How many players are in the game.", int, [1, 16], True],
+        "Player amount": [16, "How many players are in the game.", int, [1, 16], True],
         "Keybind type": ["Normal", "What set of keybinds to use. Normal is confortable, up to 4 players. Compact is tight, up to 8 players. Max is black-hole enducing, with each player getting 3 keys, pressing all keys makes them go down, (suggested) for multiple keyboards.", str, ["Normal", "Compact", "Max"]],
         "Game mode": ["Endless", "Endless will never end. Countdown ends after the tag time of a player reaches 0. Tags ends after a player gets tagged to much. Claim is when all players get tagged, you can't get un-tagged. Multi allows multiple players to get tagged and is endless.", str, ["Endless", "Countdown", "Tags", "Claim", "Multi"]],
         "Tag time": [120000, "A timer the ticks when a player can tag others (after the tag cooldown). Can be used to end the game, depending on the game mode.", int, [0, 1000000], False],
@@ -113,6 +114,9 @@ settings = { # settings[page][option][index], index 0 is value, 1 is description
         "Jump rect height": [2, "The height of the jump rect. How many pixels you have to be away from the ground to jump.", int, [1, 128], False],
         "Wall jump modifier": [0.8, "The multiplication of jump height when wall jumping. 1 means the same as jump height.", float, [0, 1], True],
         "Wall slide speed modifier": [0.1, "The multiplication of gravity when wall sliding. 1 means the same as gravity.", float, [0, 1], True],
+    },
+    "Hidden": {
+        "Game ended": False
     }
 }
 

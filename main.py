@@ -49,6 +49,8 @@ class Game:
         )
         self.settings_buttons = {}
         for setting_group_name, settings_group_dict in settings.items():
+            if setting_group_name == "Hidden":
+                continue
             sprite_group = pygame.sprite.Group(
                     Button(x=10, y=145+i*70, w=500, h=60, heading_text=setting[0], body_text=f"{setting[1][0]}. {setting[1][1] if len(setting[1][1]) < 44 else f"{setting[1][1][:42]}..."}") for i, setting in enumerate(settings_group_dict.items())
                 )
@@ -106,8 +108,6 @@ class Game:
                         settings["Text"]["Label player keybinds"][0] = not settings["Text"]["Label player keybinds"][0]
                     if event.key == pygame.K_F5:
                         settings["Text"]["Label player tag times"][0] = not settings["Text"]["Label player tag times"][0]
-                    if event.key == pygame.K_F6 and False:
-                        settings["Text"]["Show player tag times"][0] = not settings["Text"]["Show player tag times"][0]
 
                     if event.key == pygame.K_ESCAPE:
                         self.return_page()
@@ -131,6 +131,7 @@ class Game:
 
                     menu_button_sprites = self.menu_buttons.sprites()
                     if menu_button_sprites[0].is_clicked(): # Start
+                        settings["Hidden"]["Game ended"] = False
                         self.game_level = Level(self.tmx_maps[settings["Game"]["Map"][0]])
                         self.delete_counter = 0
                         self.game_state = "game"
@@ -147,6 +148,14 @@ class Game:
             elif self.game_state == "game":
                 if dt < (1 / 20): # Don't run the game at less than 20 fps
                     self.game_level.run(dt)
+
+                    if settings["Hidden"]["Game ended"] and self.game_level.players_stats_output is not None:
+                        self.game_stats = self.game_level.players_stats_output
+                        self.game_state = "game stats"
+            
+            elif self.game_state == "game stats":
+                draw_text((10, 10), "Game stats", font=fonts["consolas bold"], surface=self.display_surface)
+                draw_text((10, 50), self.game_stats, font=fonts["consolas small"], surface=self.display_surface)
 
             elif self.game_state == "settings":
                 draw_text((10, 10), "Settings", font=fonts["consolas bold"], surface=self.display_surface)
