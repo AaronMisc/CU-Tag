@@ -17,6 +17,7 @@ class Game:
         self.settings_page = "Text"
         self.settings_option = "Label player names"
         self.settings_option_details = [True, "Label the player names above players. Toggle with F2.", bool]
+        self.instructions_page = "Movement"
 
         self.background_colour = colours["black"]
         self.show_fps = False
@@ -68,6 +69,14 @@ class Game:
         self.settings_number_text_entry = pygame_gui.elements.UITextEntryLine(pygame.rect.Rect((520, 465), (500, 75)), manager=self.ui_manager, object_id="#number_entry_line", visible=False)
         self.settings_number_text_entry.allowed_characters = "0123456789"
         self.settings_number_text_entry.length_limit = 8
+
+        self.instructions_buttons = pygame.sprite.Group(
+            Button(x=10, y=10, w=300, h=75, heading_text="Movement", body_text="How to move and game hotkeys"),
+            Button(x=10, y=95, w=300, h=75, heading_text="Settings", body_text="Using the settings and debug"),
+            Button(x=10, y=180, w=300, h=75, heading_text="Platforms", body_text="Guide to playforms"),
+            Button(x=10, y=265, w=300, h=75, heading_text="Keybinds", body_text="List of keybinds"),
+            Button(x=10, y=350, w=300, h=75, heading_text="Level editor", body_text="Using tiled")
+        )
 
     def update_str_selection_indexes(self):
         self.str_selection_current_index = self.settings_option_details[3].index(self.settings_option_details[0])
@@ -156,6 +165,9 @@ class Game:
             elif self.game_state == "game stats":
                 draw_text((10, 10), "Game stats", font=fonts["consolas bold"], surface=self.display_surface)
                 draw_text((10, 50), self.game_stats, font=fonts["consolas small"], surface=self.display_surface)
+
+                self.return_button.update()
+                self.return_button.draw(self.display_surface)
 
             elif self.game_state == "settings":
                 draw_text((10, 10), "Settings", font=fonts["consolas bold"], surface=self.display_surface)
@@ -270,7 +282,21 @@ class Game:
                             self.update_str_selection_indexes()
             
             elif self.game_state == "instructions":
-                pass
+                draw_text(pos=(320, 10), text=self.instructions_page, font=fonts["consolas bold"], surface=self.display_surface)
+                draw_text(pos=(320, 62), text=instructions_dict[self.instructions_page], font=fonts["consolas small"], surface=self.display_surface)
+
+                self.instructions_buttons.update()
+                self.instructions_buttons.draw(self.display_surface)
+
+                self.return_button.update()
+                self.return_button.draw(self.display_surface)
+
+                if self.mouse_click:
+                    instructions_buttons_sprites = self.instructions_buttons.sprites()
+                    for instructions_buttons_sprite in instructions_buttons_sprites:
+                        if instructions_buttons_sprite.is_clicked():
+                            self.instructions_page = instructions_buttons_sprite.heading_text
+
 
             elif self.game_state == "credits":
                 pass
