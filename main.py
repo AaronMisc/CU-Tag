@@ -282,7 +282,8 @@ class Game:
                             self.update_str_selection_indexes()
             
             elif self.game_state == "instructions":
-                draw_text(pos=(320, 10), text=self.instructions_page, font=fonts["consolas bold"], surface=self.display_surface)
+                draw_text(pos=(320, 10), text=f"Instructions", font=fonts["consolas bold"], surface=self.display_surface)
+                draw_text(pos=(650, 22), text=f"Current page: {self.instructions_page}.", font=fonts["consolas"], surface=self.display_surface)
                 draw_text(pos=(320, 62), text=instructions_dict[self.instructions_page], font=fonts["consolas small"], surface=self.display_surface)
 
                 self.instructions_buttons.update()
@@ -299,7 +300,11 @@ class Game:
 
 
             elif self.game_state == "credits":
-                pass
+                draw_text((10, 10), "Credits", font=fonts["consolas bold"], surface=self.display_surface)
+                draw_text((10, 62), text=credits_text, font=fonts["consolas small"], surface=self.display_surface)
+                
+                self.return_button.update()
+                self.return_button.draw(self.display_surface)
 
             self.ui_manager.update(dt)
             

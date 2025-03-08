@@ -47,20 +47,20 @@ map_names = [name for name in map_details.keys()]
 
 keybinds = { # keybinds[collection][playerid][keyid], for normal and compact: keyid 0 is up, 1 is left, 2 is right, 3 is down; for max: keyid 0 is left, keyid 1 is up, keyid 2 is right
     "normal": {
-        "Player1": [pygame.K_w, pygame.K_a, pygame.K_d, pygame.K_s],
-        "Player2": [pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_DOWN],
-        "Player3": [pygame.K_t, pygame.K_f, pygame.K_h, pygame.K_g],
-        "Player4": [pygame.K_i, pygame.K_j, pygame.K_l, pygame.K_k]
+        "Player1": [pygame.K_a, pygame.K_w, pygame.K_d, pygame.K_s],
+        "Player2": [pygame.K_LEFT, pygame.K_UP, pygame.K_RIGHT, pygame.K_DOWN],
+        "Player3": [pygame.K_f, pygame.K_t, pygame.K_h, pygame.K_g],
+        "Player4": [pygame.K_j, pygame.K_i, pygame.K_l, pygame.K_k]
     },
     "compact": {
-        "Player1": [pygame.K_2, pygame.K_q, pygame.K_e, pygame.K_w],
-        "Player2": [pygame.K_s, pygame.K_z, pygame.K_c, pygame.K_x],
-        "Player3": [pygame.K_5, pygame.K_r, pygame.K_y, pygame.K_t],
-        "Player4": [pygame.K_g, pygame.K_v, pygame.K_n, pygame.K_b],
-        "Player5": [pygame.K_8, pygame.K_u, pygame.K_o, pygame.K_i],
-        "Player6": [pygame.K_k, pygame.K_m, pygame.K_PERIOD, pygame.K_COMMA],
-        "Player7": [pygame.K_MINUS, pygame.K_p, pygame.K_RIGHTBRACKET, pygame.K_LEFTBRACKET],
-        "Player8": [pygame.K_UP, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_DOWN]
+        "Player1": [pygame.K_q, pygame.K_2, pygame.K_e, pygame.K_w],
+        "Player2": [pygame.K_z, pygame.K_s, pygame.K_c, pygame.K_x],
+        "Player3": [pygame.K_r, pygame.K_5, pygame.K_y, pygame.K_t],
+        "Player4": [pygame.K_v, pygame.K_g, pygame.K_n, pygame.K_b],
+        "Player5": [pygame.K_u, pygame.K_8, pygame.K_o, pygame.K_i],
+        "Player6": [pygame.K_m, pygame.K_k, pygame.K_PERIOD, pygame.K_COMMA],
+        "Player7": [pygame.K_p, pygame.K_MINUS, pygame.K_RIGHTBRACKET, pygame.K_LEFTBRACKET],
+        "Player8": [pygame.K_LEFT, pygame.K_UP, pygame.K_RIGHT, pygame.K_DOWN]
     },
     "max": {
         "Player1": [pygame.K_1, pygame.K_2, pygame.K_3],
@@ -125,6 +125,26 @@ instructions_dict = {
     "Keybinds": "==NORMAL==\nPlayer1: W A D S (jump, left, right, down)\nPlayer2: Up Left Right Down (arrows)\nPlayer3: T F H G\nPlayer4: I J L K\n==COMPACT==\nPlayer1: 2 Q E W (jump, left, right, down)\nPlayer2: S Z C X\nPlayer3: 5 R Y T\nPlayer4: G V N B\nPlayer5: 8 U O I\nPlayer6: K M . , (period and comma)\nPlayer7: - P ] [\nPlayer8: Up Left Right Down (arrows)\n==MAX==\nPlayer1: 1 2 3 Player2: Q W E\nPlayer3: A S D Player4: Z X C\nPlayer5: 4 5 6 Player6: R T Y\nPlayer7: F G H Player8: V B N\nPlayer9: 7 8 9 Player10: U I O\nPlayer11: J K L Player12: M , . (comma and period)\nPlayer13: 0 - = (equals) Player14: P [ ]\nPlayer15: RShift Return \\ (backslash) Player16: Left Up Right (arrows)",
     "Level editor": "Note: it is recommended to see a tutorial, but if you don't want to you can try understand this.\nOn the top right is the layers. The eye icon changes whether it's hidden.\nThe one highlighted in blue is the one selected.\nMake sure you are on the correct layer. The layer you place it on will determine the platform type.\nUnder the layers, those are the tilesets.\nAt the bottom of that there is an icon that will say New Tileset when hovered over.\nOpen the needed tilesets by clicking on the files.\nClick a tile in a tileset to start placing that.\nThey type of platform is detemined by layer, not by tile.\nOn the top are the tools. Press B to select the stamp brush to add tiles.\nPress E for the eraser. On the right are the rotate and mirror buttons.\nSave the file using Ctrl+S.\nOpening the game should show the files there."
 }
+credits_text = """==PROJECT==
+AM - Tag
+Author: AaronMisc
+Published on: 08/03/2025
+Title: Leveldotpy
+Website: https://github.com/AaronMisc/CU-Tag/settings
+Version: Alpha 1.0
+
+==RESOURCES==
+Fonts: Consolas. Luc(as) de Groot.
+Images made in: Pixilart. pixilart.com
+Level editor: Tiled. www.mapeditor.org
+
+==LANGUAGE AND LIBRARIES==
+Python: Python software foundation. www.python.org
+Pygame: Pete Shinners, Pygame Community. www.pygame.org
+Pygame Community Edition: Pygame Community. https://pygame-ce.org/
+PyTMX: Bitcraft. https://github.com/bitcraft/PyTMX
+pygame_gui: MyreMylar. https://pygame-gui.readthedocs.io
+Tabulate: Sergey Astanin. https://pypi.org/project/tabulate/"""
 
 tag_cooldown_end = 0
 tag_time_colours = {
