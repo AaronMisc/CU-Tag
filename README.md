@@ -2,16 +2,12 @@
 
 Leveldotpy is a local multiplayer game, where you can play tag on one computer (but two keyboards are recommended for many players.)
 
----
-
 ## Features
 - **Menu**: Menu with Start Game, Settings, Instructions, Credits, and Quit.
 - **Game**: Tag other players, and be tagged for the least time to win. A very fun game.
 - **Good performance**: Optimised, FPS around 100-300 for low-end PCs. Deltatime movement.
 - **Customizable Settings**: Modify the game in settings.
 - **Instructions**: How to use the program and play the game. Debug functions.
-
----
 
 ## Dependencies
 The following Python libraries and modules are required to run the game:
@@ -23,8 +19,6 @@ The following Python libraries and modules are required to run the game:
 - `math` (built-in)
 - `os.path` (built-in)
 - `random` (built-in)
-
----
 
 ## Starting Program
 ### Prerequisites
@@ -50,10 +44,8 @@ To install libraries:
 ### Debugging
 If there are errors, try using the community edition of pygame.
 For windows:
-`pip uninstall pygame`
-`pip install pygame-ce`
-
----
+1. `pip uninstall pygame`
+2. `pip install pygame-ce`
 
 ## Usage
 Use buttons to navigate.
@@ -76,12 +68,8 @@ Use buttons to navigate.
 - **ESC**: Return to Menu
 - **DELETE**: Reset game (in-game only, after 5 presses).
 
----
-
 ## License
 This project is licensed under the Apache-2.0 License. [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
----
 
 ## Acknowledgements
 ### Project
@@ -91,27 +79,18 @@ This project is licensed under the Apache-2.0 License. [Apache License, Version 
 - **Repository**: [GitHub - Leveldotpy](https://github.com/AaronMisc/Leveldotpy/)  
 - **Published on**: 08/03/2025  
 
----
-
 ### Language and Libraries
 - [Pygame](https://www.pygame.org/): A set of Python modules designed for writing video games.
 - [Pygame GUI](https://pygame-gui.readthedocs.io/): A GUI toolkit for use with `pygame`.
 - [Pytmx](https://github.com/bitcraft/pytmx): A simple library for reading Tiled Map Editor files.
 - [Tabulate](https://pypi.org/project/tabulate/): Coverting lists to tables in Python.
 
----
-
 ### **Resources Used**
-1. **Fonts**:  
-   - *Consolas* by Luc(as) de Groot.
-
-2. **Images**:  
-   - Created using Pixilart ([Pixilart Website](https://www.pixilart.com)).
-
-3. **Level Editor**:  
-   - Tiled ([Tiled Map Editor](https://www.mapeditor.org)).
+- **Fonts**: *Consolas* by Luc(as) de Groot.
+- **Images**: Created using Pixilart ([Pixilart Website](https://www.pixilart.com)).
+- **Level Editor**: Tiled ([Tiled Map Editor](https://www.mapeditor.org)).
 
 ### Special Thanks
 **ClearCode - Platformer Tutorial**. Basics of a platformer in Pygame.
-[YouTube - Platformer Tutorial Video](https://www.youtube.com/watch?v=WViyCAa6yLI)
-[ClearCode's Chanell](https://www.youtube.com/@ClearCode)
+- [YouTube - Platformer Tutorial Video](https://www.youtube.com/watch?v=WViyCAa6yLI)
+- [ClearCode's Chanel](https://www.youtube.com/@ClearCode)
