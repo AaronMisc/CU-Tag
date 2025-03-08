@@ -130,7 +130,7 @@ AM - Tag
 Author: AaronMisc
 Published on: 08/03/2025
 Title: Leveldotpy
-Website: https://github.com/AaronMisc/CU-Tag/settings
+Respository link: https://github.com/AaronMisc/Leveldotpy/
 Version: Alpha 1.0
 
 ==RESOURCES==
