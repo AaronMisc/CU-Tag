@@ -1,7 +1,6 @@
 from settings import *
 from sprites import *
 from player import *
-from pytimer import Timer
 
 class Level:
     def __init__(self, tmx_map, offset=16, tile_size=32):

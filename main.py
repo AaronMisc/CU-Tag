@@ -5,7 +5,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
-        pygame.display.set_caption('CU-Tag')
+        pygame.display.set_caption('AaronMisc - Leveldotpy')
         self.clock = pygame.time.Clock()
         self.ui_manager = pygame_gui.UIManager((WINDOW_WIDTH, WINDOW_HEIGHT))
 
@@ -130,7 +130,7 @@ class Game:
             self.display_surface.fill(self.background_colour)
             
             if self.game_state == "menu":
-                draw_text((360, 30), "AM - Tag", font=fonts["consolas title"], surface=self.display_surface)
+                draw_text((640, 40), "AaronMisc - Leveldotpy", font=fonts["consolas title"], centred=True, surface=self.display_surface, return_size=True)
                 self.menu_buttons.update()
                 self.menu_buttons.draw(self.display_surface)
 

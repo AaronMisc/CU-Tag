@@ -7,12 +7,13 @@ from random import choice
 from pytmx.util_pygame import load_pygame
 import pygame_gui
 from tabulate import tabulate
+from pytimer import Timer
 
 file_pre_path = ""
 try:
     pygame.image.load(join("Images", "Player1.png"))
 except:
-    file_pre_path = "CU-Tag"
+    file_pre_path = "Leveldotpy"
 
 def convert_filename(path:list):
     if file_pre_path != "":
@@ -35,7 +36,7 @@ fonts = {
     "consolas bold": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 48),
     "consolas bold medium": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]),36),
     "consolas bold small": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 24),
-    "consolas title": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 128)
+    "consolas title": pygame.font.Font(convert_filename(["Fonts", "Consolas-Bold.ttf"]), 96)
 }
 
 map_details = { # map_details[name][detail], detail 0 is nickname, 1 is description, 2 is tile size
@@ -126,7 +127,7 @@ instructions_dict = {
     "Level editor": "Note: it is recommended to see a tutorial, but if you don't want to you can try understand this.\nOn the top right is the layers. The eye icon changes whether it's hidden.\nThe one highlighted in blue is the one selected.\nMake sure you are on the correct layer. The layer you place it on will determine the platform type.\nUnder the layers, those are the tilesets.\nAt the bottom of that there is an icon that will say New Tileset when hovered over.\nOpen the needed tilesets by clicking on the files.\nClick a tile in a tileset to start placing that.\nThey type of platform is detemined by layer, not by tile.\nOn the top are the tools. Press B to select the stamp brush to add tiles.\nPress E for the eraser. On the right are the rotate and mirror buttons.\nSave the file using Ctrl+S.\nOpening the game should show the files there."
 }
 credits_text = """==PROJECT==
-AM - Tag
+Leveldotpy
 Author: AaronMisc
 Published on: 08/03/2025
 Title: Leveldotpy
@@ -134,7 +135,7 @@ Respository link: https://github.com/AaronMisc/Leveldotpy/
 Version: Alpha 1.0
 
 ==RESOURCES==
-Fonts: Consolas. Luc(as) de Groot.
+Fonts: Consolas. Luc(as) de Groot
 Images made in: Pixilart. pixilart.com
 Level editor: Tiled. www.mapeditor.org
 
@@ -144,7 +145,13 @@ Pygame: Pete Shinners, Pygame Community. www.pygame.org
 Pygame Community Edition: Pygame Community. https://pygame-ce.org/
 PyTMX: Bitcraft. https://github.com/bitcraft/PyTMX
 pygame_gui: MyreMylar. https://pygame-gui.readthedocs.io
-Tabulate: Sergey Astanin. https://pypi.org/project/tabulate/"""
+Tabulate: Sergey Astanin. https://pypi.org/project/tabulate/
+
+==SPECIAL THANKS==
+ClearCode platformer tutorial
+    Video: https://www.youtube.com/watch?v=WViyCAa6yLI
+    Channel: https://www.youtube.com/@ClearCode
+"""
 
 tag_cooldown_end = 0
 tag_time_colours = {

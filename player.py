@@ -1,6 +1,5 @@
 from settings import *
-from pytimer import Timer
-from text_base import draw_text
+from text_base import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, collision_sprites, keybinds, surface, name):
