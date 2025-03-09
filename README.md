@@ -87,7 +87,7 @@ This project is licensed under the Apache-2.0 License. [Apache License, Version 
 ### Project
 - **Name**: AaronMisc  
 - **Title**: Leveldotpy  
-- **Version**: Alpha 1.0  
+- **Version**: Alpha 1.1.0  
 - **Repository**: [GitHub - Leveldotpy](https://github.com/AaronMisc/Leveldotpy/)  
 - **Published on**: 08/03/2025  
 

@@ -33,9 +33,13 @@ class Level:
                 Sprite((x * self.tile_size + self.offset, y * self.tile_size + self.offset), tmx_map_opening_setting[1], surf)
         
         # Player setup
+        if settings["Game"]["Player amount"][0] > 4 and settings["Game"]["Player amount"][0] <= 8 and settings["Game"]["Keybind type"][0] == "Normal":
+            settings["Game"]["Keybind type"][0] = "Compact"
+        elif settings["Game"]["Player amount"][0] > 8 and settings["Game"]["Keybind type"][0] == "Compact" or settings["Game"]["Player amount"][0] > 4 and settings["Game"]["Keybind type"][0] == "Normal":
+            settings["Game"]["Keybind type"][0] = "Max"
         for obj in tmx_map.get_layer_by_name("Objects"): 
-            if obj.name == "Player1" or obj.name == "Player4":
-                Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds["normal"][obj.name], obj.image, obj.name)
+            if int(obj.name[6:]) <= settings["Game"]["Player amount"][0]: # The number after the player name
+                Player((obj.x + self.offset, obj.y + self.offset), (self.all_sprites, self.player_sprites), {"normal": self.collision_sprites, "semi": self.semi_collidable_sprites, "borders": self.border_sprites}, keybinds[settings["Game"]["Keybind type"][0].lower()][obj.name], obj.image, obj.name)
         
         self.player_sprites_list = self.player_sprites.sprites()
         for player in self.player_sprites_list: # Updating player sprites
