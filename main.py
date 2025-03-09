@@ -116,7 +116,7 @@ class Game:
                     if event.key == pygame.K_F4:
                         settings["Text"]["Label player keybinds"][0] = not settings["Text"]["Label player keybinds"][0]
                     if event.key == pygame.K_F5:
-                        settings["Text"]["Label player tag times"][0] = not settings["Text"]["Label player tag times"][0]
+                        settings["Text"]["Label player game ends"][0] = not settings["Text"]["Label player game ends"][0]
 
                     if event.key == pygame.K_ESCAPE:
                         self.return_page()
@@ -305,6 +305,8 @@ class Game:
                 
                 self.return_button.update()
                 self.return_button.draw(self.display_surface)
+
+            self.mouse_click = False
 
             self.ui_manager.update(dt)
             

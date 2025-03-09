@@ -44,7 +44,10 @@ class Player(pygame.sprite.Sprite):
         self.name = name
         self.keybinds = keybinds
         self.tagged = False
-        self.tag_time = settings["Game"]["Tag time"][0]
+        if settings["Game"]["Game mode"][0] in ["Countdown", "Tags"]:
+            self.game_end = settings["Game"]["Game end"][0]
+        else:
+            self.game_end = 0
 
         self.counters = {
             "Tags": 0,
@@ -162,19 +165,22 @@ class Player(pygame.sprite.Sprite):
             self.collision_rects = self.normal_collision_rects
 
     def tag_check(self, dt):
-        self.tag_time -= dt * 1000
+        if settings["Game"]["Game mode"][0] == "Countdown":
+            self.game_end -= dt * 1000
+        elif settings["Game"]["Game mode"][0] in ["Endless", "Multi"]:
+            self.game_end += dt * 1000
 
         taggable_sprites = []
 
         for sprite in self.player_sprites:
             if sprite != self and self.rect.colliderect(sprite.rect): # If the player has tagged another player
-                taggable_sprites.append([sprite, sprite.tag_time])
+                taggable_sprites.append([sprite, sprite.game_end])
         
         if taggable_sprites == []:
             return
         
-        taggable_sprites.sort(key=lambda x: x[1], reverse=True) # Sort by tag time
-        if len(taggable_sprites) > 1 and taggable_sprites[0][0] == taggable_sprites[1][0]: # If there are players with the same tag time
+        taggable_sprites.sort(key=lambda x: x[1], reverse=True if settings["Game"]["Game mode"][0] in ["Countdown", "Tags"] else False) # Sort by game end
+        if len(taggable_sprites) > 1 and taggable_sprites[0][0] == taggable_sprites[1][0]: # If there are players with the same game end
             taggable_sprites = [sprite for sprite in taggable_sprites if sprite[1] == taggable_sprites[0][1]]
             tag_sprite = choice(taggable_sprites)
         else:
@@ -189,9 +195,12 @@ class Player(pygame.sprite.Sprite):
         self.jump_height =  settings["Movement"]["Player jump height"][0]
         self.gravity =  settings["Movement"]["Player gravity"][0]
     
-    def tag(self):     
+    def tag(self, starting=False):     
         self.tagged = True
         self.tag_cooldown_end = self.current_time + settings["Game"]["Tag cooldown"][0]
+        
+        if not starting: 
+            self.game_end -= 1
 
         self.speed =  settings["Movement"]["Tagged player speed"][0]
         self.jump_height =  settings["Movement"]["Tagged player jump height"][0]
@@ -201,9 +210,9 @@ class Player(pygame.sprite.Sprite):
         global settings
         x_pos = self.rect.x + self.rect.width // 2
         y_offset = 0
-        if settings["Text"]["Label player tag times"][0]:
+        if settings["Text"]["Label player game ends"][0]:
             y_offset += 16
-            draw_text((x_pos, self.rect.y - y_offset), str(int(self.tag_time)), colours["firebrick1"], fonts["consolas small"], centred=True, surface=front_surface)
+            draw_text((x_pos, self.rect.y - y_offset), str(int(self.game_end)), colours["firebrick1"], fonts["consolas small"], centred=True, surface=front_surface)
         if settings["Text"]["Label player keybinds"][0]:
             y_offset += 16
             draw_text((x_pos, self.rect.y - y_offset), keys_to_names(self.keybinds), colours["skyblue1"], fonts["consolas small"], centred=True, surface=front_surface)
@@ -221,8 +230,12 @@ class Player(pygame.sprite.Sprite):
         if not any(self.touching_sides.values()):  # If the player is not touching any sides
             self.counters["Air time"] += dt * 1000
         
-        if self.tag_time <= 0:
-            settings["Hidden"]["Game ended"] = True
+        if settings["Game"]["Game mode"][0] == "Countdown":
+            if self.game_end <= 0:
+                settings["Hidden"]["Game ended"] = True
+        elif settings["Game"]["Game mode"][0] == "Tags":
+            if self.game_end <= 0:
+                settings["Hidden"]["Game ended"] = True
 
     def update(self, dt):
         self.old_rect = self.rect.copy()

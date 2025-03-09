@@ -48,13 +48,13 @@ class Level:
             player.player_sprites = excluside_player_sprites_list
 
             if player.name == "Player1":
-                player.tag()
+                player.tag(starting=True)
 
     def draw_player_tag_times(self):
         display_text_tag_times = ""
 
         for player in self.player_sprites_list:
-            display_text_tag_times += f"{player.name} ({keys_to_names(player.keybinds)}): {int(player.tag_time)}\n"
+            display_text_tag_times += f"{player.name} ({keys_to_names(player.keybinds)}): {int(player.game_end)}\n"
 
         draw_text((60, 120), display_text_tag_times, colour=colours["firebrick1"] if pygame.time.get_ticks() >= tag_cooldown_end else colours["firebrick3"], font=fonts["consolas small"], surface=self.display_surface)
 
@@ -64,7 +64,7 @@ class Level:
         stat_names_checked = False
         stat_names = ["Name", "Tag time"]
         for player in self.player_sprites.sprites():
-            player_stats = [player.name, player.tag_time]
+            player_stats = [player.name, player.game_end]
 
             for name, value in player.counters.items():
                 if not stat_names_checked:
@@ -76,7 +76,7 @@ class Level:
             players_stats.append(player_stats)
         
         # Sort player stats by tag times
-        players_stats.sort(key=lambda player_stats: player_stats[1], reverse=True)
+        players_stats.sort(key=lambda player_stats: player_stats[1 if settings["Game"]["Game mode"][0] in ["Endless", "Countdown", "Tags", "Multi"] else 2], reverse=True if settings["Game"]["Game mode"][0] in ["Countdown", "Tags"] else False)
         # Add player places
         for i, player_stats in enumerate(players_stats):
             player_stats.insert(0, i + 1)
